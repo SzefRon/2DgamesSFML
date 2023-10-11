@@ -9,7 +9,19 @@ FetchContent_Declare(SFML
     GIT_TAG 2.6.x)
 FetchContent_MakeAvailable(SFML)
 
-add_executable(CMakeSFMLProject src/main.cpp)
+# Add source files
+file(GLOB_RECURSE SOURCE_FILES 
+	 ./src/*.c
+	 ./src/*.cpp)
+	
+# Add header files
+file(GLOB_RECURSE HEADER_FILES 
+	 ./include/*.h
+	 ./include/*.hpp)
+
+include_directories(./include)
+
+add_executable(CMakeSFMLProject ${SOURCE_FILES} ${HEADER_FILES})
 target_link_libraries(CMakeSFMLProject PRIVATE sfml-graphics)
 target_compile_features(CMakeSFMLProject PRIVATE cxx_std_17)
 
