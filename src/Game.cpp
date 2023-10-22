@@ -8,11 +8,14 @@ Game::Game(unsigned int initSizeX, unsigned int initSizeY)
     inputHandler = new InputHandler(window);
 
     sf::Texture *texture = new sf::Texture();
-    texture->loadFromFile("..\\..\\..\\textures\\player1.png");
+    texture->loadFromFile("..\\..\\res\\textures\\player1.png");
     player1 = new Player(*texture, 64, 64);
     sf::Texture *texture2 = new sf::Texture();
-    texture2->loadFromFile("..\\..\\..\\textures\\player2.png");
+    texture2->loadFromFile("..\\..\\res\\textures\\player2.png");
     player2 = new MousePlayer(*texture2, 256, 256);
+
+    levelLoader = new LevelLoader();
+    levelLoader->read("..\\..\\res\\levels\\level1.json");
 }
 
 Game::~Game()
@@ -33,6 +36,8 @@ void Game::start()
         window->clear(sf::Color(100, 100, 100));
         window->draw(*(player1->sprite));
         window->draw(*(player2->sprite));
+
+        levelLoader->draw(window);
         window->display();
     }
 }

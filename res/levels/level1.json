@@ -1,0 +1,25 @@
+{
+    "level": [
+        {
+            "type": "cube",
+            "pos": [0, 0],
+            "texture": "stone.png"
+        },
+        {
+            "type": "cube",
+            "pos": [0, 1],
+            "texture": "stone.png"
+        },
+        {
+            "type": "cube",
+            "pos": [1, 0],
+            "texture": "stone.png"
+        },
+        {
+            "type": "triangle",
+            "rotation": 1,
+            "pos": [1, 2],
+            "texture": "stonetriangle.png"
+        }
+    ]
+}

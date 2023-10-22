@@ -17,9 +17,12 @@ file(GLOB_RECURSE SOURCE_FILES
 # Add header files
 file(GLOB_RECURSE HEADER_FILES 
 	 ./include/*.h
-	 ./include/*.hpp)
+	 ./include/*.hpp
+     ./lib/rapidjson-master/include/*.h
+     ./lib/rapidjson-master/include/*.hpp)
 
-include_directories(./include)
+include_directories(./include
+./lib/rapidjson-master/include)
 
 add_executable(CMakeSFMLProject ${SOURCE_FILES} ${HEADER_FILES})
 target_link_libraries(CMakeSFMLProject PRIVATE sfml-graphics)
@@ -34,3 +37,8 @@ if(WIN32)
 endif()
 
 install(TARGETS CMakeSFMLProject)
+
+add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD 
+    COMMAND ${CMAKE_COMMAND} -E create_symlink 
+    ${CMAKE_SOURCE_DIR}/res 
+    ${CMAKE_CURRENT_BINARY_DIR}/res)
