@@ -7,6 +7,7 @@
 #include "MousePlayer.h"
 #include "InputHandler.h"
 #include "LevelLoader.h"
+#include "Camera.h"
 
 class Game
 {
@@ -17,6 +18,7 @@ private:
     Player *player1;
     MousePlayer *player2;
     LevelLoader *levelLoader;
+    Camera *camera;
 public:
     Game(unsigned int initSizeX, unsigned int initSizeY);
     ~Game();

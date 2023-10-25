@@ -7,19 +7,28 @@
         },
         {
             "type": "cube",
-            "pos": [0, 1],
+            "pos": [-2, 0],
             "texture": "stone.png"
         },
         {
             "type": "cube",
-            "pos": [1, 0],
+            "pos": [-4, 0],
             "texture": "stone.png"
         },
         {
-            "type": "triangle",
-            "rotation": 1,
-            "pos": [1, 2],
-            "texture": "stonetriangle.png"
+            "type": "cube",
+            "pos": [-6, 0],
+            "texture": "stone.png"
+        },
+        {
+            "type": "cube",
+            "pos": [-8, 0],
+            "texture": "stone.png"
+        },
+        {
+            "type": "cube",
+            "pos": [-10, 0],
+            "texture": "stone.png"
         }
     ]
 }

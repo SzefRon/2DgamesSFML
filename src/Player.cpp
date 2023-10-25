@@ -21,8 +21,8 @@ Player::~Player()
 
 void Player::move(std::map<sf::Keyboard::Scan::Scancode, bool> &keyboardInputs, sf::Time dt)
 {
-    vx = vx * pow(slipperiness, dt.asMilliseconds());
-    vy = vy * pow(slipperiness, dt.asMilliseconds());
+    vx = vx * powf(slipperiness, dt.asMilliseconds());
+    vy = vy * powf(slipperiness, dt.asMilliseconds());
 
     if (keyboardInputs[sf::Keyboard::Scan::Scancode::Up]) {
         vy = -1.0f;
@@ -48,4 +48,9 @@ void Player::move(std::map<sf::Keyboard::Scan::Scancode, bool> &keyboardInputs, 
     y += (vy) * speed * dt.asMilliseconds();
 
     sprite->setPosition(x, y);
+}
+
+sf::Vector2f Player::getPos()
+{
+    return sf::Vector2f(x, y);
 }
