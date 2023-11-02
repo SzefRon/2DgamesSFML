@@ -1,4 +1,5 @@
 #include "Camera.h"
+#include <iostream>
 
 Camera::Camera(unsigned int screenX, unsigned int screenY)
 {
@@ -27,9 +28,11 @@ void Camera::moveCameraSmooth(Player *player, sf::Time dt)
     
     float len = sqrtf(cameraOffset.x * cameraOffset.x + cameraOffset.y * cameraOffset.y);
 
-    float multiplier = sqrtf(len * 0.005f);
-    vx = (cameraOffset.x / len) * multiplier;
-    vy = (cameraOffset.y / len) * multiplier;
+    if (len > 0.0f) {
+        float multiplier = sqrtf(len * 0.005f);
+        vx = (cameraOffset.x / len) * multiplier;
+        vy = (cameraOffset.y / len) * multiplier;
+    }
 
     view->move(0.0f, vy * dt.asMilliseconds());
 }
