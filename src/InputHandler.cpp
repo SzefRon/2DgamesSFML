@@ -8,6 +8,10 @@ InputHandler::InputHandler(sf::RenderWindow *window)
     keyboardInputs.emplace(sf::Keyboard::Scan::Scancode::Down, false);
     keyboardInputs.emplace(sf::Keyboard::Scan::Scancode::Left, false);
     keyboardInputs.emplace(sf::Keyboard::Scan::Scancode::Right, false);
+    keyboardInputs.emplace(sf::Keyboard::Scan::Scancode::W, false);
+    keyboardInputs.emplace(sf::Keyboard::Scan::Scancode::A, false);
+    keyboardInputs.emplace(sf::Keyboard::Scan::Scancode::S, false);
+    keyboardInputs.emplace(sf::Keyboard::Scan::Scancode::D, false);
 }
 
 void InputHandler::handleEvents()

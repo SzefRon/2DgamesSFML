@@ -29,6 +29,21 @@
             "type": "cube",
             "pos": [-10, 0],
             "texture": "stone.png"
+        },
+        {
+            "type": "cube",
+            "pos": [-12, 0],
+            "texture": "stone.png"
+        },
+        {
+            "type": "cube",
+            "pos": [-14, 0],
+            "texture": "stone.png"
+        },
+        {
+            "type": "cube",
+            "pos": [-16, 0],
+            "texture": "stone.png"
         }
     ]
 }

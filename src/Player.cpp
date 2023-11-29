@@ -3,7 +3,7 @@
 #include <iostream>
 #include <math.h>
 
-Player::Player(sf::Texture &texture, float startX, float startY)
+Player::Player(ControlType controlType, sf::Texture &texture, float startX, float startY)
 {
     sprite = new sf::Sprite(texture);
     x = startX;
@@ -12,6 +12,22 @@ Player::Player(sf::Texture &texture, float startX, float startY)
     sf::Vector2u textureSize = texture.getSize();
     sprite->setOrigin(textureSize.x / 2.0f, textureSize.y / 2.0f);
     sprite->setScale(1.0f, 1.0f);
+
+    switch (controlType)
+    {
+    case WASD:
+        directionKeys[Up] = sf::Keyboard::Scan::Scancode::W;
+        directionKeys[Down] = sf::Keyboard::Scan::Scancode::S;
+        directionKeys[Left] = sf::Keyboard::Scan::Scancode::A;
+        directionKeys[Right] = sf::Keyboard::Scan::Scancode::D;
+        break;
+    case Arrows:
+        directionKeys[Up] = sf::Keyboard::Scan::Scancode::Up;
+        directionKeys[Down] = sf::Keyboard::Scan::Scancode::Down;
+        directionKeys[Left] = sf::Keyboard::Scan::Scancode::Left;
+        directionKeys[Right] = sf::Keyboard::Scan::Scancode::Right;
+        break;
+    }
 }
 
 Player::~Player()
@@ -24,16 +40,16 @@ void Player::move(std::map<sf::Keyboard::Scan::Scancode, bool> &keyboardInputs, 
     vx = vx * powf(slipperiness, dt.asMilliseconds());
     vy = vy * powf(slipperiness, dt.asMilliseconds());
 
-    if (keyboardInputs[sf::Keyboard::Scan::Scancode::Up]) {
+    if (keyboardInputs[directionKeys[Up]]) {
         vy = -1.0f;
     }
-    if (keyboardInputs[sf::Keyboard::Scan::Scancode::Down]) {
+    if (keyboardInputs[directionKeys[Down]]) {
         vy = 1.0f;
     }
-    if (keyboardInputs[sf::Keyboard::Scan::Scancode::Right]) {
+    if (keyboardInputs[directionKeys[Right]]) {
         vx = 1.0f;
     }
-    if (keyboardInputs[sf::Keyboard::Scan::Scancode::Left]) {
+    if (keyboardInputs[directionKeys[Left]]) {
         vx = -1.0f;
     }
 
