@@ -12,6 +12,8 @@ InputHandler::InputHandler(sf::RenderWindow *window)
     keyboardInputs.emplace(sf::Keyboard::Scan::Scancode::A, false);
     keyboardInputs.emplace(sf::Keyboard::Scan::Scancode::S, false);
     keyboardInputs.emplace(sf::Keyboard::Scan::Scancode::D, false);
+    keyboardToggles.emplace(sf::Keyboard::Scan::Scancode::E, false);
+    keyboardToggles.emplace(sf::Keyboard::Scan::Scancode::R, false);
 }
 
 void InputHandler::handleEvents()
@@ -21,6 +23,9 @@ void InputHandler::handleEvents()
             if (auto found = keyboardInputs.find(event.key.scancode); found != keyboardInputs.end()) {
                 found->second = true;
                 //std::cout << "Key pressed: " << found->first << '\n';
+            }
+            if (auto found = keyboardToggles.find(event.key.scancode); found != keyboardToggles.end()) {
+                found->second ^= true;
             }
         }
         if (event.type == sf::Event::KeyReleased) {

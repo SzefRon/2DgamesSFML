@@ -1,11 +1,17 @@
 #pragma once
 
+#include <stdlib.h>
+
 class Maths
 {
 public:
     template <typename T> static int sign(T val);
     template <typename T> static T min(T val1, T val2);
     template <typename T> static T max(T val1, T val2);
+    static float randFloat(float from, float to)
+    {
+        return from + (rand() / (RAND_MAX / (to - from)) );
+    }
 };
 
 template <typename T>

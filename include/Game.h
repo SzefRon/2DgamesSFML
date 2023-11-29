@@ -9,6 +9,7 @@
 #include "InputHandler.h"
 #include "LevelLoader.h"
 #include "CameraManager.h"
+#include "KulkiManager.h"
 
 class Game
 {
@@ -20,6 +21,8 @@ private:
     std::deque<Player *> players;
     LevelLoader *levelLoader;
     CameraManager *cameraManager;
+    KulkiManager *kulkiManager;
+    sf::Font *font;
 
     void draw();
 public:

@@ -56,8 +56,8 @@ float Camera::followPlayers(std::deque<Player *> &players, sf::Time dt, unsigned
     
     float len = sqrtf(cameraOffset.x * cameraOffset.x + cameraOffset.y * cameraOffset.y);
 
-    if (len > 0.0f) {
-        float multiplier = sqrtf(len * 0.005f);
+    if (len > 1.0f) {
+        float multiplier = sqrtf(len) * 0.05f;
         vx = (cameraOffset.x / len) * multiplier;
         vy = (cameraOffset.y / len) * multiplier;
     }

@@ -26,6 +26,7 @@ public:
     InputHandler(sf::RenderWindow *window);
     void handleEvents();
     std::map<sf::Keyboard::Scan::Scancode, bool> keyboardInputs;
+    std::map<sf::Keyboard::Scan::Scancode, bool> keyboardToggles;
     std::map<sf::Mouse::Button, bool> mouseInputs;
     std::pair<unsigned int, unsigned int> mousePos;
 };

@@ -7,6 +7,7 @@ void Game::draw()
     }
 
     levelLoader->draw(window);
+    kulkiManager->draw(window);
 }
 
 Game::Game(unsigned int initSizeX, unsigned int initSizeY)
@@ -29,6 +30,11 @@ Game::Game(unsigned int initSizeX, unsigned int initSizeY)
 
     levelLoader = new LevelLoader();
     levelLoader->read("..\\..\\res\\levels\\level1.json");
+
+    kulkiManager = new KulkiManager(50, initSizeX, initSizeY);
+    
+    font = new sf::Font();
+    font->loadFromFile("..\\..\\res\\fonts\\arial.ttf");
 }
 
 Game::~Game()
@@ -51,7 +57,7 @@ void Game::start()
 
         window->clear(sf::Color(100, 100, 100));
 
-        if (cameraManager->cameraMode == CONNECTED) {
+        /*if (cameraManager->cameraMode == CONNECTED) {
             window->setView(*(cameraManager->mainCamera->view));
             draw();
         }
@@ -60,7 +66,22 @@ void Game::start()
             draw();
             window->setView(*(cameraManager->splitCamera1->view));
             draw();
-        }
+        }*/
+
+        sf::Vector2f cameraPos = cameraManager->mainCamera->view->getCenter();
+        sf::Vector2f cameraSize = cameraManager->mainCamera->view->getSize();
+        kulkiManager->update(inputHandler->keyboardToggles ,cameraPos, cameraSize, dt);
+
+        window->setView(*(cameraManager->mainCamera->view));
+        draw();
+
+        window->setView(*(cameraManager->uiCamera->view));
+        std::stringstream ss;
+        ss << "Odsuwanie: " << inputHandler->keyboardToggles[sf::Keyboard::Scan::Scancode::E]
+            << "\nOdbicia: " << inputHandler->keyboardToggles[sf::Keyboard::Scan::Scancode::R];
+        sf::Text text(ss.str(), *font);
+        text.setPosition(0.0f, 0.0f);
+        window->draw(text);
 
         window->display();
     }

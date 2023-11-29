@@ -4,6 +4,7 @@ CameraManager::CameraManager(std::deque<Player *> players, int initSizeX, int in
     : players(players), windowX(initSizeX), windowY(initSizeY)
 {
     mainCamera = new Camera(initSizeX, initSizeY);
+    uiCamera = new Camera(initSizeX, initSizeY);
     splitCamera1 = new Camera(initSizeX / 2, initSizeY);
     splitCamera2 = new Camera(initSizeX / 2, initSizeY);
 }
