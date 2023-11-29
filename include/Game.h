@@ -8,7 +8,7 @@
 #include "MousePlayer.h"
 #include "InputHandler.h"
 #include "LevelLoader.h"
-#include "Camera.h"
+#include "CameraManager.h"
 
 class Game
 {
@@ -19,9 +19,9 @@ private:
     sf::Time dt;
     std::deque<Player *> players;
     LevelLoader *levelLoader;
-    Camera *camera;
-    Camera *splitCamera1;
-    Camera *splitCamera2;
+    CameraManager *cameraManager;
+
+    void draw();
 public:
     Game(unsigned int initSizeX, unsigned int initSizeY);
     ~Game();
