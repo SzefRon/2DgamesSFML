@@ -15,7 +15,8 @@ class CameraManager
 {
 private:
     int windowX, windowY;
-    float returnScaleUpdated = 1.0f;
+    float returnScale = 1.0f;
+    bool direction;
     std::deque<Player *> players;
 public:
     Camera *mainCamera;

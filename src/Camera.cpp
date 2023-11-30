@@ -28,7 +28,7 @@ void Camera::moveCameraSmooth(Player *player, sf::Time dt)
     
     float len = sqrtf(cameraOffset.x * cameraOffset.x + cameraOffset.y * cameraOffset.y);
 
-    if (len > 0.0f) {
+    if (len > 1.0f) {
         float multiplier = sqrtf(len * 0.005f);
         vx = (cameraOffset.x / len) * multiplier;
         vy = (cameraOffset.y / len) * multiplier;
@@ -56,7 +56,7 @@ float Camera::followPlayers(std::deque<Player *> &players, sf::Time dt, unsigned
     
     float len = sqrtf(cameraOffset.x * cameraOffset.x + cameraOffset.y * cameraOffset.y);
 
-    if (len > 0.0f) {
+    if (len > 1.0f) {
         float multiplier = sqrtf(len * 0.005f);
         vx = (cameraOffset.x / len) * multiplier;
         vy = (cameraOffset.y / len) * multiplier;
@@ -77,12 +77,12 @@ float Camera::followPlayers(std::deque<Player *> &players, sf::Time dt, unsigned
     float sizeY = ((furthestY + 0.5f * windowY) * 2.0f) / windowY;
 
     if (sizeX > sizeY) {
-        float scale = Maths::max<float>(1.5f, sizeX);
+        float scale = Maths::min<float>(Maths::max<float>(1.5f, sizeX), 2.5f);
         view->setSize(windowX * scale, windowY * scale);
         return scale;
     }
     else {
-        float scale = Maths::max<float>(1.5f, sizeY);
+        float scale = Maths::min<float>(Maths::max<float>(1.5f, sizeY), 2.5f);
         view->setSize(windowX * scale, windowY * scale);
         return scale;
     }
