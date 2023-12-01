@@ -4,6 +4,7 @@ CameraManager::CameraManager(std::deque<Player *> players, int initSizeX, int in
     : players(players), windowX(initSizeX), windowY(initSizeY)
 {
     mainCamera = new Camera(initSizeX, initSizeY);
+    uiCamera = new Camera(initSizeX, initSizeY);
     splitCamera1 = new Camera(initSizeX, initSizeY);
     splitCamera2 = new Camera(initSizeX, initSizeY);
 }
@@ -15,11 +16,11 @@ void CameraManager::update(sf::Time dt)
     sf::Vector2f playerPos2 = players[1]->getPos();
     //playerDistance = std::sqrtf((playerPos1.x - playerPos2.x) * (playerPos1.x - playerPos2.x) + (playerPos1.y - playerPos2.y) * (playerPos1.y - playerPos2.y));
 
-    playerDistance = mainCamera->followPlayers(players, dt, windowX, windowY);
+    playerDistance = mainCamera->snapPlayers(players, windowX, windowY);
 
     if (playerDistance >= 2.5f) {
-        splitCamera1->moveCameraSmooth(players.at(0), dt);
-        splitCamera2->moveCameraSmooth(players.at(1), dt);
+        splitCamera1->snapCamera(players.at(0));
+        splitCamera2->snapCamera(players.at(1));
 
         splitCamera1->view->setSize(windowX * 2.5f, windowY * 2.5f);
         splitCamera2->view->setSize(windowX * 2.5f, windowY * 2.5f);
@@ -38,16 +39,14 @@ void CameraManager::update(sf::Time dt)
         sf::Vector2f center = mainCamera->view->getCenter();
         sf::Vector2f size = mainCamera->view->getSize();
 
-        if (playerPos1.x < playerPos2.x) {
-            direction = true;
-            splitCamera1->view->setCenter(sf::Vector2f(center.x - size.x * 0.25f, center.y));
-            splitCamera2->view->setCenter(sf::Vector2f(center.x + size.x * 0.25f, center.y));
-        }
-        else {
-            direction = false;
-            splitCamera1->view->setCenter(sf::Vector2f(center.x + size.x * 0.25f, center.y));
-            splitCamera2->view->setCenter(sf::Vector2f(center.x - size.x * 0.25f, center.y));
-        }
+        sf::Vector2f diff = playerPos2 - playerPos1;
+        float diffLen = std::sqrtf(diff.x * diff.x + diff.y * diff.y);
+        diff.x = (diff.x / diffLen) * 0.25f;
+        diff.y = (diff.y / diffLen) * 0.25f;
+
+        direction = true;
+        splitCamera1->view->setCenter(sf::Vector2f(center.x - size.x * diff.x, center.y - size.y * diff.y));
+        splitCamera2->view->setCenter(sf::Vector2f(center.x + size.x * diff.x, center.y + size.y * diff.y));
         
         cameraMode = CONNECTED;
     }

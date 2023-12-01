@@ -20,6 +20,7 @@ private:
     std::deque<Player *> players;
 public:
     Camera *mainCamera;
+    Camera *uiCamera;
     Camera *splitCamera1;
     Camera *splitCamera2;
     CameraMode cameraMode;

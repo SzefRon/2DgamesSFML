@@ -75,16 +75,22 @@ void Game::start()
             frameBuff2.display();
             frameTex2 = frameBuff2.getTexture();
 
-            sf::Texture tex;
-            tex.loadFromFile(".\\res\\textures\\stone.png");
+            sf::Vector2f diff = players[1]->getPos() - players[0]->getPos();
+            float diffLen = std::sqrtf(diff.x * diff.x + diff.y * diff.y);
+            diff.x = (diff.x / diffLen) * 0.25f;
+            diff.y = (diff.y / diffLen) * 0.25f;
+
+            std::cout << diff.x << ' ' << diff.y << '\n';
 
             fbShader.setUniform("tex1", frameTex1);
             fbShader.setUniform("tex2", frameTex2);
+            fbShader.setUniform("diffVec", diff);
 
             sf::RectangleShape rect(sf::Vector2f(windowX, windowY));
             rect.setTexture(&frameTex1, true);
             rect.setPosition(0.0f, 0.0f);
 
+            window->setView(*(cameraManager->uiCamera->view));
             window->draw(rect, &fbShader);
         }
 

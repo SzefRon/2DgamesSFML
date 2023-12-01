@@ -37,7 +37,13 @@ void Camera::moveCameraSmooth(Player *player, sf::Time dt)
     view->move(vx * dt.asMilliseconds(), vy * dt.asMilliseconds());
 }
 
-float Camera::followPlayers(std::deque<Player *> &players, sf::Time dt, unsigned int windowX, unsigned int windowY)
+void Camera::snapCamera(Player *player)
+{
+    sf::Vector2f playerPos = player->getPos();
+    view->setCenter(playerPos.x, playerPos.y);
+}
+
+float Camera::followPlayersSmooth(std::deque<Player *> &players, sf::Time dt, unsigned int windowX, unsigned int windowY)
 {
     float vx = 0.0f, vy = 0.0f;
 
@@ -83,6 +89,40 @@ float Camera::followPlayers(std::deque<Player *> &players, sf::Time dt, unsigned
     }
     else {
         float scale = Maths::min<float>(Maths::max<float>(1.5f, sizeY), 2.5f);
+        view->setSize(windowX * scale, windowY * scale);
+        return scale;
+    }
+}
+
+float Camera::snapPlayers(std::deque<Player *> &players, unsigned int windowX, unsigned int windowY)
+{
+    sf::Vector2f playerAveragePos(0.0f, 0.0f);
+    for (auto &player : players) {
+        sf::Vector2f playerPos = player->getPos();
+        playerAveragePos.x += playerPos.x;
+        playerAveragePos.y += playerPos.y;
+    }
+    int noPlayers = players.size();
+    playerAveragePos.x /= noPlayers;
+    playerAveragePos.y /= noPlayers;
+
+    view->setCenter(playerAveragePos.x, playerAveragePos.y);
+    sf::Vector2f size = view->getSize();
+
+    sf::Vector2f playerPos = players[0]->getPos();
+    float diffX = abs(playerAveragePos.x - playerPos.x);
+    float diffY = abs(playerAveragePos.y - playerPos.y);
+
+    float newSizeX = (2.0f * diffX + size.x * 0.5f) / windowX;
+    float newSizeY = (2.0f * diffY + size.y * 0.5f) / windowY;
+
+    if (newSizeX > newSizeY) {
+        float scale = Maths::min<float>(Maths::max<float>(1.5f, newSizeX), 2.5f);
+        view->setSize(windowX * scale, windowY * scale);
+        return scale;
+    }
+    else {
+        float scale = Maths::min<float>(Maths::max<float>(1.5f, newSizeY), 2.5f);
         view->setSize(windowX * scale, windowY * scale);
         return scale;
     }
