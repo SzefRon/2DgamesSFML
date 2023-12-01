@@ -22,7 +22,7 @@ bool LevelLoader::read(std::string filePath)
     document.Parse(fileContent);
 
     for (auto &object : document["level"].GetArray()) {
-        std::string textureFilePath = "..\\..\\res\\textures\\";
+        std::string textureFilePath = ".\\res\\textures\\";
         textureFilePath.append(object["texture"].GetString());
         
         sf::Texture *texture = new sf::Texture();
@@ -44,11 +44,4 @@ bool LevelLoader::read(std::string filePath)
     }
 
     return 0;
-}
-
-void LevelLoader::draw(sf::RenderWindow *window)
-{
-    for (auto sprite : sprites) {
-        window->draw(*sprite);
-    }
 }

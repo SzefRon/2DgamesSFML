@@ -12,8 +12,7 @@ class LevelLoader
 {
 private:
     rapidjson::Document document;
-    std::deque<sf::Sprite *> sprites;
 public:
+    std::deque<sf::Sprite *> sprites;
     bool read(std::string filePath);
-    void draw(sf::RenderWindow *window);
 };

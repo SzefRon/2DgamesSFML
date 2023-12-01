@@ -4,8 +4,8 @@ CameraManager::CameraManager(std::deque<Player *> players, int initSizeX, int in
     : players(players), windowX(initSizeX), windowY(initSizeY)
 {
     mainCamera = new Camera(initSizeX, initSizeY);
-    splitCamera1 = new Camera(initSizeX / 2, initSizeY);
-    splitCamera2 = new Camera(initSizeX / 2, initSizeY);
+    splitCamera1 = new Camera(initSizeX, initSizeY);
+    splitCamera2 = new Camera(initSizeX, initSizeY);
 }
 
 void CameraManager::update(sf::Time dt)
@@ -21,16 +21,16 @@ void CameraManager::update(sf::Time dt)
         splitCamera1->moveCameraSmooth(players.at(0), dt);
         splitCamera2->moveCameraSmooth(players.at(1), dt);
 
-        splitCamera1->view->setSize(windowX * 2.5f / 2, windowY * 2.5f);
-        splitCamera2->view->setSize(windowX * 2.5f / 2, windowY * 2.5f);
+        splitCamera1->view->setSize(windowX * 2.5f, windowY * 2.5f);
+        splitCamera2->view->setSize(windowX * 2.5f, windowY * 2.5f);
 
         if (direction) {
-            splitCamera1->view->setViewport(sf::FloatRect(0.f, 0.f, 0.5f, 1.f));
-            splitCamera2->view->setViewport(sf::FloatRect(0.5f, 0.0f, 0.5f, 1.0f));
+            //splitCamera1->view->setViewport(sf::FloatRect(0.f, 0.f, 0.5f, 1.f));
+            //splitCamera2->view->setViewport(sf::FloatRect(0.5f, 0.0f, 0.5f, 1.0f));
         }
         else {
-            splitCamera1->view->setViewport(sf::FloatRect(0.5f, 0.0f, 0.5f, 1.0f));
-            splitCamera2->view->setViewport(sf::FloatRect(0.f, 0.f, 0.5f, 1.f));
+            //splitCamera1->view->setViewport(sf::FloatRect(0.5f, 0.0f, 0.5f, 1.0f));
+            //splitCamera2->view->setViewport(sf::FloatRect(0.f, 0.f, 0.5f, 1.f));
         }
         cameraMode = SPLIT;
     }

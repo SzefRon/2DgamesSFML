@@ -16,12 +16,17 @@ private:
     int windowX, windowY;
     InputHandler *inputHandler;
     sf::RenderWindow *window;
+
+    sf::RenderTexture frameBuff1, frameBuff2;
+    sf::Shader fbShader;
+    sf::Texture frameTex1, frameTex2;
+
     sf::Time dt;
     std::deque<Player *> players;
     LevelLoader *levelLoader;
     CameraManager *cameraManager;
 
-    void draw();
+    void draw(sf::RenderTarget *target);
 public:
     Game(unsigned int initSizeX, unsigned int initSizeY);
     ~Game();
