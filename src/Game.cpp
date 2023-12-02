@@ -76,15 +76,19 @@ void Game::start()
             frameTex2 = frameBuff2.getTexture();
 
             sf::Vector2f diff = players[1]->getPos() - players[0]->getPos();
-            float diffLen = std::sqrtf(diff.x * diff.x + diff.y * diff.y);
-            diff.x = (diff.x / diffLen) * 0.25f;
-            diff.y = (diff.y / diffLen) * 0.25f;
+            float a = -1.0f * (diff.x / (abs(diff.y) <= 0.0001f ? 0.0001f : diff.y));
+            std::cout << a << '\n';
 
-            std::cout << diff.x << ' ' << diff.y << '\n';
+            diff.x = (diff.x / 1600.0f) * 0.25f;
+            diff.y = (diff.y / 900.0f) * 0.25f;
+            
+            diff.x = Maths::sign(diff.x) * Maths::min(0.25f, abs(diff.x));
+            diff.y = Maths::sign(diff.y) * Maths::min(0.25f, abs(diff.y));
 
             fbShader.setUniform("tex1", frameTex1);
             fbShader.setUniform("tex2", frameTex2);
-            fbShader.setUniform("diffVec", diff);
+            fbShader.setUniform("diffVec", sf::Vector2f(diff.x, diff.y));
+            fbShader.setUniform("a", a);
 
             sf::RectangleShape rect(sf::Vector2f(windowX, windowY));
             rect.setTexture(&frameTex1, true);
