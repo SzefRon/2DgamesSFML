@@ -22,8 +22,8 @@ void CameraManager::update(sf::Time dt)
         splitCamera1->snapCamera(players.at(0));
         splitCamera2->snapCamera(players.at(1));
 
-        splitCamera1->view->setSize(windowX * 2.5f, windowY * 2.5f);
-        splitCamera2->view->setSize(windowX * 2.5f, windowY * 2.5f);
+        splitCamera1->view->setSize(windowX * 5.0f, windowY * 5.0f);
+        splitCamera2->view->setSize(windowX * 5.0f, windowY * 5.0f);
 
         if (direction) {
             //splitCamera1->view->setViewport(sf::FloatRect(0.f, 0.f, 0.5f, 1.f));

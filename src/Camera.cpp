@@ -117,12 +117,12 @@ float Camera::snapPlayers(std::deque<Player *> &players, unsigned int windowX, u
     float newSizeY = (2.0f * diffY + size.y * 0.5f) / windowY;
 
     if (newSizeX > newSizeY) {
-        float scale = Maths::min<float>(Maths::max<float>(1.5f, newSizeX), 2.5f);
+        float scale = Maths::min<float>(Maths::max<float>(2.0f, newSizeX), 2.5f);
         view->setSize(windowX * scale, windowY * scale);
         return scale;
     }
     else {
-        float scale = Maths::min<float>(Maths::max<float>(1.5f, newSizeY), 2.5f);
+        float scale = Maths::min<float>(Maths::max<float>(2.0f, newSizeY), 2.5f);
         view->setSize(windowX * scale, windowY * scale);
         return scale;
     }

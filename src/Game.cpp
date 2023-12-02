@@ -18,8 +18,8 @@ Game::Game(unsigned int initSizeX, unsigned int initSizeY)
     window = new sf::RenderWindow{{ initSizeX, initSizeY }, "Zadanie!", sf::Style::Close};
     window->setFramerateLimit(120);
 
-    frameBuff1.create(initSizeX, initSizeY);
-    frameBuff2.create(initSizeX, initSizeY);
+    frameBuff1.create(initSizeX * 2.0f, initSizeY * 2.0f);
+    frameBuff2.create(initSizeX * 2.0f, initSizeY * 2.0f);
     fbShader.loadFromFile(".\\res\\shaders\\frameBuff.frag", sf::Shader::Type::Fragment);
 
     inputHandler = new InputHandler(window);
@@ -77,10 +77,11 @@ void Game::start()
 
             sf::Vector2f diff = players[1]->getPos() - players[0]->getPos();
             float a = -1.0f * (diff.x / (abs(diff.y) <= 0.0001f ? 0.0001f : diff.y));
-            std::cout << a << '\n';
 
             diff.x = (diff.x / 1600.0f) * 0.25f;
             diff.y = (diff.y / 900.0f) * 0.25f;
+
+            float aScaled = -1.0f * (diff.x / (abs(diff.y) <= 0.0001f ? 0.0001f : diff.y));
             
             diff.x = Maths::sign(diff.x) * Maths::min(0.25f, abs(diff.x));
             diff.y = Maths::sign(diff.y) * Maths::min(0.25f, abs(diff.y));
@@ -94,8 +95,15 @@ void Game::start()
             rect.setTexture(&frameTex1, true);
             rect.setPosition(0.0f, 0.0f);
 
+            sf::RectangleShape line(sf::Vector2f(2000.0f, 5.0f));
+            line.setOrigin(sf::Vector2f(1000.0f, 2.5f));
+            line.setFillColor(sf::Color(0, 0, 0));
+            line.setPosition(sf::Vector2f(windowX * 0.5f, windowY * 0.5f));
+            line.rotate(std::atanf(aScaled) * 57.29578f);
+
             window->setView(*(cameraManager->uiCamera->view));
             window->draw(rect, &fbShader);
+            window->draw(line);
         }
 
         window->display();

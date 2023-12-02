@@ -3,6 +3,7 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include <deque>
+#include <math.h>
 
 #include "Player.h"
 #include "MousePlayer.h"
