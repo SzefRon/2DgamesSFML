@@ -7,7 +7,7 @@ void main()
 {
     vec4 pixel;
     
-    if (diffVec.y >= 0) {
+    if (diffVec.y >= 0.0f) {
         if ((gl_TexCoord[0].x - 0.5f) * a <= (gl_TexCoord[0].y - 0.5f)) {
             vec2 pos = 0.5f * vec2(gl_TexCoord[0].x - diffVec.x, gl_TexCoord[0].y - diffVec.y) + 0.25f;
             pixel = texture2D(tex2, pos);
