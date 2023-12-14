@@ -8,11 +8,13 @@
 #include <deque>
 #include <SFML/Graphics.hpp>
 
+#include "Sprite.h"
+
 class LevelLoader
 {
 private:
     rapidjson::Document document;
 public:
-    std::deque<sf::Sprite *> sprites;
+    std::deque<Sprite *> sprites;
     bool read(std::string filePath);
 };

@@ -29,10 +29,15 @@ bool LevelLoader::read(std::string filePath)
         texture->loadFromFile(textureFilePath);
         
         sf::Sprite *sprite = new sf::Sprite(*texture);
+        CollisionType collisionType;
         sprite->scale(1.0f, 1.0f);
         auto positionObj = object["pos"].GetArray();
         sprite->setPosition(sf::Vector2f(positionObj[0].GetInt() * 128, positionObj[1].GetInt() * 128));
         
+        if (strcmp(object["type"].GetString(), "square") == 0) {
+            collisionType = SQUARE;
+        }
+
         if (strcmp(object["type"].GetString(), "triangle") == 0) {
             float angle = object["rotation"].GetInt() * 90.0f;
             sprite->setOrigin(sf::Vector2f(64.0f, 64.0f));
@@ -40,7 +45,7 @@ bool LevelLoader::read(std::string filePath)
             sprite->move(64.0f, 64.0f);
         }
 
-        sprites.push_back(sprite);
+        sprites.push_back(new Sprite(sprite, collisionType));
     }
 
     return 0;

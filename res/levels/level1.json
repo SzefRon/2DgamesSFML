@@ -1,48 +1,173 @@
 {
     "level": [
         {
-            "type": "cube",
-            "pos": [0, 0],
+            "type": "square",
+            "pos": [-8, -8],
             "texture": "stone.png"
         },
         {
-            "type": "cube",
-            "pos": [-2, 0],
+            "type": "square",
+            "pos": [-8, -7],
             "texture": "stone.png"
         },
         {
-            "type": "cube",
-            "pos": [-4, 0],
+            "type": "square",
+            "pos": [-8, -6],
             "texture": "stone.png"
         },
         {
-            "type": "cube",
-            "pos": [-6, 0],
+            "type": "square",
+            "pos": [-8, -5],
             "texture": "stone.png"
         },
         {
-            "type": "cube",
+            "type": "square",
+            "pos": [-8, -4],
+            "texture": "stone.png"
+        },
+        {
+            "type": "square",
+            "pos": [-8, -3],
+            "texture": "stone.png"
+        },
+        {
+            "type": "square",
+            "pos": [-8, -2],
+            "texture": "stone.png"
+        },
+        {
+            "type": "square",
+            "pos": [-8, -1],
+            "texture": "stone.png"
+        },
+        {
+            "type": "square",
             "pos": [-8, 0],
             "texture": "stone.png"
         },
         {
-            "type": "cube",
-            "pos": [-10, 0],
+            "type": "square",
+            "pos": [-8, 1],
             "texture": "stone.png"
         },
         {
-            "type": "cube",
-            "pos": [-12, 0],
+            "type": "square",
+            "pos": [-8, 2],
             "texture": "stone.png"
         },
         {
-            "type": "cube",
-            "pos": [-14, 0],
+            "type": "square",
+            "pos": [-8, 3],
             "texture": "stone.png"
         },
         {
-            "type": "cube",
-            "pos": [-16, 0],
+            "type": "square",
+            "pos": [-8, 4],
+            "texture": "stone.png"
+        },
+        {
+            "type": "square",
+            "pos": [-8, 5],
+            "texture": "stone.png"
+        },
+        {
+            "type": "square",
+            "pos": [-8, 6],
+            "texture": "stone.png"
+        },
+        {
+            "type": "square",
+            "pos": [-8, 7],
+            "texture": "stone.png"
+        },
+        {
+            "type": "square",
+            "pos": [-8, 8],
+            "texture": "stone.png"
+        },
+        {
+            "type": "square",
+            "pos": [8, -8],
+            "texture": "stone.png"
+        },
+        {
+            "type": "square",
+            "pos": [8, -7],
+            "texture": "stone.png"
+        },
+        {
+            "type": "square",
+            "pos": [8, -6],
+            "texture": "stone.png"
+        },
+        {
+            "type": "square",
+            "pos": [8, -5],
+            "texture": "stone.png"
+        },
+        {
+            "type": "square",
+            "pos": [8, -4],
+            "texture": "stone.png"
+        },
+        {
+            "type": "square",
+            "pos": [8, -3],
+            "texture": "stone.png"
+        },
+        {
+            "type": "square",
+            "pos": [8, -2],
+            "texture": "stone.png"
+        },
+        {
+            "type": "square",
+            "pos": [8, -1],
+            "texture": "stone.png"
+        },
+        {
+            "type": "square",
+            "pos": [8, 0],
+            "texture": "stone.png"
+        },
+        {
+            "type": "square",
+            "pos": [8, 1],
+            "texture": "stone.png"
+        },
+        {
+            "type": "square",
+            "pos": [8, 2],
+            "texture": "stone.png"
+        },
+        {
+            "type": "square",
+            "pos": [8, 3],
+            "texture": "stone.png"
+        },
+        {
+            "type": "square",
+            "pos": [8, 4],
+            "texture": "stone.png"
+        },
+        {
+            "type": "square",
+            "pos": [8, 5],
+            "texture": "stone.png"
+        },
+        {
+            "type": "square",
+            "pos": [8, 6],
+            "texture": "stone.png"
+        },
+        {
+            "type": "square",
+            "pos": [8, 7],
+            "texture": "stone.png"
+        },
+        {
+            "type": "square",
+            "pos": [8, 8],
             "texture": "stone.png"
         }
     ]

@@ -3,15 +3,15 @@
 #include <iostream>
 #include <math.h>
 
-Player::Player(ControlType controlType, sf::Texture &texture, float startX, float startY)
+Player::Player(ControlType controlType, sf::Texture &texture, float startX, float startY, CollisionType collisionType)
 {
-    sprite = new sf::Sprite(texture);
+    sprite = new Sprite(new sf::Sprite(texture), collisionType);
     x = startX;
     y = startY;
-    sprite->setPosition(x, y);
+    sprite->sprite->setPosition(x, y);
     sf::Vector2u textureSize = texture.getSize();
-    sprite->setOrigin(textureSize.x / 2.0f, textureSize.y / 2.0f);
-    sprite->setScale(1.0f, 1.0f);
+    sprite->sprite->setOrigin(textureSize.x / 2.0f, textureSize.y / 2.0f);
+    sprite->sprite->setScale(1.0f, 1.0f);
 
     switch (controlType)
     {
@@ -63,7 +63,7 @@ void Player::move(std::map<sf::Keyboard::Scan::Scancode, bool> &keyboardInputs, 
     x += (vx) * speed * dt.asMilliseconds();
     y += (vy) * speed * dt.asMilliseconds();
 
-    sprite->setPosition(x, y);
+    sprite->sprite->setPosition(x, y);
 }
 
 sf::Vector2f Player::getPos()

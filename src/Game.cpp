@@ -3,11 +3,11 @@
 void Game::draw(sf::RenderTarget *target)
 {
     for (auto &player : players) {
-        target->draw(*(player->sprite));
+        target->draw(*(player->sprite->sprite));
     }
 
     for (auto &sprite : levelLoader->sprites) {
-        target->draw(*sprite);
+        target->draw(*(sprite->sprite));
     }
 }
 
@@ -27,10 +27,10 @@ Game::Game(unsigned int initSizeX, unsigned int initSizeY)
 
     sf::Texture *texture = new sf::Texture();
     texture->loadFromFile(".\\res\\textures\\player1.png");
-    players.push_back(new Player(WASD, *texture, 0, 0));
+    players.push_back(new Player(WASD, *texture, 0, 0, SQUARE));
     sf::Texture *texture2 = new sf::Texture();
     texture2->loadFromFile(".\\res\\textures\\player2.png");
-    players.push_back(new Player(Arrows, *texture2, 128, 128));
+    players.push_back(new Player(Arrows, *texture2, 128, 128, CIRCLE));
 
     cameraManager = new CameraManager(players, initSizeX, initSizeY);
 

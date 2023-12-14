@@ -6,6 +6,7 @@ public:
     template <typename T> static int sign(T val);
     template <typename T> static T min(T val1, T val2);
     template <typename T> static T max(T val1, T val2);
+    template <typename T> static T clamp(T val, T min, T max);
 };
 
 template <typename T>
@@ -28,4 +29,10 @@ inline T Maths::max(T val1, T val2)
 {
     if (val1 > val2) return val1;
     return val2;
+}
+
+template <typename T>
+inline T Maths::clamp(T val, T min, T max)
+{
+    return Maths::max(Maths::min(val, max), min);
 }
