@@ -16,36 +16,42 @@ bool LevelLoader::read(std::string filePath)
     }
 
     std::string str = ss.str();
-    char * fileContent = new char [str.length()+1];
+    char *fileContent = new char[str.length()];
     strcpy(fileContent, str.c_str());
 
     document.Parse(fileContent);
 
-    for (auto &object : document["level"].GetArray()) {
-        std::string textureFilePath = ".\\res\\textures\\";
-        textureFilePath.append(object["texture"].GetString());
-        
+    std::string textureFilePath = ".\\res\\textures\\";
+    for (auto &object : document["palette"].GetArray()) {
+        Block block;
+        std::string collisionType = object["type"].GetString();
+
+        if (collisionType == "square") block.collisionType = SQUARE; 
+
         sf::Texture *texture = new sf::Texture();
-        texture->loadFromFile(textureFilePath);
+        texture->loadFromFile(textureFilePath + object["texture"].GetString());
+        block.texture = texture;
+
+        std::string name = object["name"].GetString();
+        blockPalette.emplace(name, block);
+    }
+
+    for (auto &object : document["level"].GetArray()) {
+        std::string name = object["name"].GetString();
+        const Block &block = blockPalette[name];
         
-        sf::Sprite *sprite = new sf::Sprite(*texture);
-        CollisionType collisionType;
+        sf::Sprite *sprite = new sf::Sprite(*block.texture);
         sprite->scale(1.0f, 1.0f);
         auto positionObj = object["pos"].GetArray();
         sprite->setPosition(sf::Vector2f(positionObj[0].GetInt() * 128, positionObj[1].GetInt() * 128));
-        
-        if (strcmp(object["type"].GetString(), "square") == 0) {
-            collisionType = SQUARE;
-        }
 
-        if (strcmp(object["type"].GetString(), "triangle") == 0) {
-            float angle = object["rotation"].GetInt() * 90.0f;
-            sprite->setOrigin(sf::Vector2f(64.0f, 64.0f));
-            sprite->setRotation(angle);
-            sprite->move(64.0f, 64.0f);
-        }
+        float angle = object["rotation"].GetInt() * 90.0f;
+        sprite->setOrigin(sf::Vector2f(64.0f, 64.0f));
+        sprite->setRotation(angle);
+        sprite->move(64.0f, 64.0f);
+        sprite->setOrigin(sf::Vector2f(0.0f, 0.0f));
 
-        sprites.push_back(new Sprite(sprite, collisionType));
+        sprites.push_back(new Sprite(sprite, block.collisionType));
     }
 
     return 0;

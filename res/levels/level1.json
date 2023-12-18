@@ -1,174 +1,21 @@
 {
+    "palette": [
+        {
+            "name": "cobble",
+            "type": "square",
+            "texture": "stone.png"
+        }
+    ],
     "level": [
         {
-            "type": "square",
+            "name": "cobble",
             "pos": [-8, -8],
-            "texture": "stone.png"
+            "rotation": 0
         },
         {
-            "type": "square",
+            "name": "cobble",
             "pos": [-8, -7],
-            "texture": "stone.png"
-        },
-        {
-            "type": "square",
-            "pos": [-8, -6],
-            "texture": "stone.png"
-        },
-        {
-            "type": "square",
-            "pos": [-8, -5],
-            "texture": "stone.png"
-        },
-        {
-            "type": "square",
-            "pos": [-8, -4],
-            "texture": "stone.png"
-        },
-        {
-            "type": "square",
-            "pos": [-8, -3],
-            "texture": "stone.png"
-        },
-        {
-            "type": "square",
-            "pos": [-8, -2],
-            "texture": "stone.png"
-        },
-        {
-            "type": "square",
-            "pos": [-8, -1],
-            "texture": "stone.png"
-        },
-        {
-            "type": "square",
-            "pos": [-8, 0],
-            "texture": "stone.png"
-        },
-        {
-            "type": "square",
-            "pos": [-8, 1],
-            "texture": "stone.png"
-        },
-        {
-            "type": "square",
-            "pos": [-8, 2],
-            "texture": "stone.png"
-        },
-        {
-            "type": "square",
-            "pos": [-8, 3],
-            "texture": "stone.png"
-        },
-        {
-            "type": "square",
-            "pos": [-8, 4],
-            "texture": "stone.png"
-        },
-        {
-            "type": "square",
-            "pos": [-8, 5],
-            "texture": "stone.png"
-        },
-        {
-            "type": "square",
-            "pos": [-8, 6],
-            "texture": "stone.png"
-        },
-        {
-            "type": "square",
-            "pos": [-8, 7],
-            "texture": "stone.png"
-        },
-        {
-            "type": "square",
-            "pos": [-8, 8],
-            "texture": "stone.png"
-        },
-        {
-            "type": "square",
-            "pos": [8, -8],
-            "texture": "stone.png"
-        },
-        {
-            "type": "square",
-            "pos": [8, -7],
-            "texture": "stone.png"
-        },
-        {
-            "type": "square",
-            "pos": [8, -6],
-            "texture": "stone.png"
-        },
-        {
-            "type": "square",
-            "pos": [8, -5],
-            "texture": "stone.png"
-        },
-        {
-            "type": "square",
-            "pos": [8, -4],
-            "texture": "stone.png"
-        },
-        {
-            "type": "square",
-            "pos": [8, -3],
-            "texture": "stone.png"
-        },
-        {
-            "type": "square",
-            "pos": [8, -2],
-            "texture": "stone.png"
-        },
-        {
-            "type": "square",
-            "pos": [8, -1],
-            "texture": "stone.png"
-        },
-        {
-            "type": "square",
-            "pos": [8, 0],
-            "texture": "stone.png"
-        },
-        {
-            "type": "square",
-            "pos": [8, 1],
-            "texture": "stone.png"
-        },
-        {
-            "type": "square",
-            "pos": [8, 2],
-            "texture": "stone.png"
-        },
-        {
-            "type": "square",
-            "pos": [8, 3],
-            "texture": "stone.png"
-        },
-        {
-            "type": "square",
-            "pos": [8, 4],
-            "texture": "stone.png"
-        },
-        {
-            "type": "square",
-            "pos": [8, 5],
-            "texture": "stone.png"
-        },
-        {
-            "type": "square",
-            "pos": [8, 6],
-            "texture": "stone.png"
-        },
-        {
-            "type": "square",
-            "pos": [8, 7],
-            "texture": "stone.png"
-        },
-        {
-            "type": "square",
-            "pos": [8, 8],
-            "texture": "stone.png"
+            "rotation": 0
         }
     ]
 }
