@@ -12,17 +12,21 @@ FetchContent_MakeAvailable(SFML)
 # Add source files
 file(GLOB_RECURSE SOURCE_FILES 
 	 ./src/*.c
-	 ./src/*.cpp)
+	 ./src/*.cpp
+     ./lib/EasyBMP/*.cpp)
 	
 # Add header files
 file(GLOB_RECURSE HEADER_FILES 
 	 ./include/*.h
 	 ./include/*.hpp
      ./lib/rapidjson-master/include/*.h
-     ./lib/rapidjson-master/include/*.hpp)
+     ./lib/rapidjson-master/include/*.hpp
+     ./lib/EasyBMP/*.h
+     ./lib/EasyBMP/*.hpp)
 
 include_directories(./include
-./lib/rapidjson-master/include)
+./lib/rapidjson-master/include
+./lib/EasyBMP)
 
 add_executable(CMakeSFMLProject ${SOURCE_FILES} ${HEADER_FILES})
 target_link_libraries(CMakeSFMLProject PRIVATE sfml-graphics)

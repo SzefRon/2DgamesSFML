@@ -49,7 +49,6 @@ bool LevelLoader::read(std::string filePath)
         sprite->setOrigin(sf::Vector2f(64.0f, 64.0f));
         sprite->setRotation(angle);
         sprite->move(64.0f, 64.0f);
-        sprite->setOrigin(sf::Vector2f(0.0f, 0.0f));
 
         sprites.push_back(new Sprite(sprite, block.collisionType));
     }

@@ -35,7 +35,7 @@ Game::Game(unsigned int initSizeX, unsigned int initSizeY)
     cameraManager = new CameraManager(players, initSizeX, initSizeY);
 
     levelLoader = new LevelLoader();
-    levelLoader->read(".\\res\\levels\\level1.json");
+    levelLoader->read(".\\res\\levels\\maze\\maze.json");
 }
 
 Game::~Game()
