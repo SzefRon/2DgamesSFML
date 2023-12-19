@@ -10,6 +10,7 @@
 #include "InputHandler.h"
 #include "LevelLoader.h"
 #include "CameraManager.h"
+#include "CollisionManager.h"
 
 class Game
 {

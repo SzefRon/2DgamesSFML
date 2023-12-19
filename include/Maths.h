@@ -1,5 +1,7 @@
 #pragma once
 
+#include <SFML/Graphics.hpp>
+
 class Maths
 {
 public:
@@ -7,6 +9,7 @@ public:
     template <typename T> static T min(T val1, T val2);
     template <typename T> static T max(T val1, T val2);
     template <typename T> static T clamp(T val, T min, T max);
+    static float len(sf::Vector2f v);
 };
 
 template <typename T>
@@ -35,4 +38,9 @@ template <typename T>
 inline T Maths::clamp(T val, T min, T max)
 {
     return Maths::max(Maths::min(val, max), min);
+}
+
+inline float Maths::len(sf::Vector2f v)
+{
+    return std::sqrtf(v.x * v.x + v.y * v.y);
 }

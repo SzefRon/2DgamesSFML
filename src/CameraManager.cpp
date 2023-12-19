@@ -12,8 +12,8 @@ CameraManager::CameraManager(std::deque<Player *> players, int initSizeX, int in
 void CameraManager::update(sf::Time dt)
 {
     float playerDistance = 0.0f;
-    sf::Vector2f playerPos1 = players[0]->getPos();
-    sf::Vector2f playerPos2 = players[1]->getPos();
+    sf::Vector2f playerPos1 = players[0]->getPosition();
+    sf::Vector2f playerPos2 = players[1]->getPosition();
     //playerDistance = std::sqrtf((playerPos1.x - playerPos2.x) * (playerPos1.x - playerPos2.x) + (playerPos1.y - playerPos2.y) * (playerPos1.y - playerPos2.y));
 
     playerDistance = mainCamera->snapPlayers(players, windowX, windowY);

@@ -8,7 +8,7 @@ Camera::Camera(unsigned int screenX, unsigned int screenY)
 
 void Camera::moveCameraBox(Player *player)
 {
-    sf::Vector2f playerPos = player->getPos();
+    sf::Vector2f playerPos = player->getPosition();
     sf::Vector2f cameraPos = view->getCenter();
     sf::Vector2f cameraOffset = sf::Vector2f(playerPos.x - cameraPos.x, playerPos.y - cameraPos.y);
     if (fabs(cameraOffset.x) > 100) {
@@ -22,7 +22,7 @@ void Camera::moveCameraBox(Player *player)
 void Camera::moveCameraSmooth(Player *player, sf::Time dt)
 {
     float vx = 0.0f, vy = 0.0f;
-    sf::Vector2f playerPos = player->getPos();
+    sf::Vector2f playerPos = player->getPosition();
     sf::Vector2f cameraPos = view->getCenter();
     sf::Vector2f cameraOffset = sf::Vector2f(playerPos.x - cameraPos.x, playerPos.y - cameraPos.y);
     
@@ -39,7 +39,7 @@ void Camera::moveCameraSmooth(Player *player, sf::Time dt)
 
 void Camera::snapCamera(Player *player)
 {
-    sf::Vector2f playerPos = player->getPos();
+    sf::Vector2f playerPos = player->getPosition();
     view->setCenter(playerPos.x, playerPos.y);
 }
 
@@ -49,7 +49,7 @@ float Camera::followPlayersSmooth(std::deque<Player *> &players, sf::Time dt, un
 
     sf::Vector2f playerAveragePos(0.0f, 0.0f);
     for (auto &player : players) {
-        sf::Vector2f playerPos = player->getPos();
+        sf::Vector2f playerPos = player->getPosition();
         playerAveragePos.x += playerPos.x;
         playerAveragePos.y += playerPos.y;
     }
@@ -72,7 +72,7 @@ float Camera::followPlayersSmooth(std::deque<Player *> &players, sf::Time dt, un
 
     float furthestX = 0.0f, furthestY = 0.0f;
     for (auto &player : players) {
-        sf::Vector2f playerPos = player->getPos();
+        sf::Vector2f playerPos = player->getPosition();
         float x = abs(playerAveragePos.x - playerPos.x);
         float y = abs(playerAveragePos.y - playerPos.y);
         if (x > furthestX) furthestX = x;
@@ -98,7 +98,7 @@ float Camera::snapPlayers(std::deque<Player *> &players, unsigned int windowX, u
 {
     sf::Vector2f playerAveragePos(0.0f, 0.0f);
     for (auto &player : players) {
-        sf::Vector2f playerPos = player->getPos();
+        sf::Vector2f playerPos = player->getPosition();
         playerAveragePos.x += playerPos.x;
         playerAveragePos.y += playerPos.y;
     }
@@ -109,7 +109,7 @@ float Camera::snapPlayers(std::deque<Player *> &players, unsigned int windowX, u
     view->setCenter(playerAveragePos.x, playerAveragePos.y);
     sf::Vector2f size = view->getSize();
 
-    sf::Vector2f playerPos = players[0]->getPos();
+    sf::Vector2f playerPos = players[0]->getPosition();
     float diffX = abs(playerAveragePos.x - playerPos.x);
     float diffY = abs(playerAveragePos.y - playerPos.y);
 

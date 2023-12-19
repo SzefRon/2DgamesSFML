@@ -51,7 +51,8 @@ void Game::start()
         inputHandler->handleEvents();
 
         for (auto &player : players) {
-            player->move(inputHandler->keyboardInputs, dt);
+            player->manageMovement(inputHandler->keyboardInputs, dt);
+            CollisionManager::managePlayerCollision(player, levelLoader->sprites);
         }
 
         cameraManager->update(dt);
@@ -75,7 +76,7 @@ void Game::start()
             frameBuff2.display();
             frameTex2 = frameBuff2.getTexture();
 
-            sf::Vector2f diff = players[1]->getPos() - players[0]->getPos();
+            sf::Vector2f diff = players[1]->getPosition() - players[0]->getPosition();
             float a = -1.0f * (diff.x / (abs(diff.y) <= 0.0001f ? 0.0001f : diff.y));
 
             diff.x = (diff.x / 1600.0f) * 0.25f;

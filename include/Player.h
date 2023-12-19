@@ -17,6 +17,8 @@ public:
     Player(ControlType controlType, sf::Texture &texture, float startX, float startY, CollisionType collisionType);
     ~Player();
 
-    void move(std::map<sf::Keyboard::Scan::Scancode, bool> &keyboardInputs, sf::Time dt);
-    sf::Vector2f getPos();
+    void manageMovement(std::map<sf::Keyboard::Scan::Scancode, bool> &keyboardInputs, sf::Time dt);
+    void move(sf::Vector2f vec);
+    void setPosition(sf::Vector2f vec);
+    sf::Vector2f getPosition();
 };
