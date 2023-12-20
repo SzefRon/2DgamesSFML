@@ -216,8 +216,8 @@ void Game::drawScore(sf::RenderTarget *target)
     std::stringstream ss;
     ss << "SQUARE " << players.at(0)->score << " : " << players.at(1)->score << " CIRCLE";
     scoreText.setString(ss.str());
-    scoreText.setPosition(target->getSize().x * 0.5f - scoreText.getGlobalBounds().width * 0.5f,
-                          target->getSize().y * 0.5f - scoreText.getGlobalBounds().height);
+    scoreText.setPosition(target->getView().getSize().x * 0.5f - scoreText.getLocalBounds().width * 0.5f,
+                          target->getView().getSize().y * 0.5f - scoreText.getLocalBounds().height);
     target->draw(scoreText);
 }
 
@@ -298,8 +298,7 @@ void Game::start()
             manageDrawing();
         } 
         else {
-            cameraManager->update(dt);
-
+            window->setView(*(cameraManager->uiCamera->view));
             window->clear(sf::Color(100, 100, 100));
 
             drawScore(window);
