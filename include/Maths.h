@@ -1,6 +1,7 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
+#include <cstdlib>
 
 class Maths
 {
@@ -10,6 +11,7 @@ public:
     template <typename T> static T max(T val1, T val2);
     template <typename T> static T clamp(T val, T min, T max);
     static float len(sf::Vector2f v);
+    static int randInt(int min, int max);
 };
 
 template <typename T>
@@ -43,4 +45,9 @@ inline T Maths::clamp(T val, T min, T max)
 inline float Maths::len(sf::Vector2f v)
 {
     return std::sqrtf(v.x * v.x + v.y * v.y);
+}
+
+inline int Maths::randInt(int min, int max)
+{
+    return (rand() % (max - min) + min);
 }

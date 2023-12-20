@@ -74,6 +74,12 @@ void Player::move(sf::Vector2f vec)
     sprite->sprite->setPosition(x, y);
 }
 
+void Player::resetVelocity()
+{
+    vx = 0.0f;
+    vy = 0.0f;
+}
+
 void Player::setPosition(sf::Vector2f vec)
 {
     x = vec.x;

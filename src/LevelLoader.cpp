@@ -2,6 +2,8 @@
 
 bool LevelLoader::read(std::string filePath)
 {
+    sprites.clear();
+    blockPalette.clear();
     std::ifstream file;
     std::stringstream ss;
 
