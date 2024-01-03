@@ -37,33 +37,33 @@ Player::~Player()
 
 void Player::manageMovement(std::map<sf::Keyboard::Scan::Scancode, bool> &keyboardInputs, sf::Time dt)
 {
-    vx = vx * powf(slipperiness, dt.asMilliseconds());
-    vy = vy * powf(slipperiness, dt.asMilliseconds());
+    float dtSec = dt.asSeconds();
+    vx = vx * powf(slipperiness, dtSec * 1000.0f);
 
     if (keyboardInputs[directionKeys[Up]]) {
-        vy = -1.0f;
+        vy = -speed * 10.0f;
     }
     if (keyboardInputs[directionKeys[Down]]) {
-        vy = 1.0f;
+        vy = speed;
     }
     if (keyboardInputs[directionKeys[Right]]) {
-        vx = 1.0f;
+        vx = speed;
     }
     if (keyboardInputs[directionKeys[Left]]) {
-        vx = -1.0f;
+        vx = -speed;
     }
 
-    float vLength = std::sqrtf(vx * vx + vy * vy);
+    x += (vx) * speed * dtSec;
 
-    if (vLength > 1.0f) {
-        vx = vx / vLength;
-        vy = vy / vLength;
-    }
+    float gravity = 64.0f * 15.0f;
+    y += (vy) * dtSec + 0.5f * gravity * dtSec * dtSec;
+    vy += gravity * dtSec;
 
-    x += (vx) * speed * dt.asMilliseconds();
-    y += (vy) * speed * dt.asMilliseconds();
+    std::cout << vy << '\n';
 
     sprite->sprite->setPosition(x, y);
+
+    onGround = false;
 }
 
 void Player::move(sf::Vector2f vec)
@@ -77,6 +77,11 @@ void Player::move(sf::Vector2f vec)
 void Player::resetVelocity()
 {
     vx = 0.0f;
+    vy = 0.0f;
+}
+
+void Player::resetGravity()
+{
     vy = 0.0f;
 }
 
