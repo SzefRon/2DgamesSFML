@@ -16,10 +16,11 @@ bool CollisionManager::managePlayerCollision(Player *player, std::deque<Sprite *
                         }
                         else {
                             player->move(sf::Vector2f(0.0f, diff.y - Maths::sign(diff.y) * 128.0f));
+                            player->resetGravity();
+                            if (Maths::sign(diff.y) == 1) player->onGround = true;
                         }
                     }
                     returnVal = true;
-                    player->resetGravity();
                 }
             }
             break;
@@ -44,12 +45,13 @@ bool CollisionManager::managePlayerCollision(Player *player, std::deque<Sprite *
                         if (separate) {
                             float scalar = 64.0f - distance;
                             float x = (diff.x / distance) * scalar;
+                            float y = (diff.y / distance) * scalar;
                             if (x == 0.0f) {
                                 player->resetGravity();
-                                player->onGround = true;
+                                if (Maths::sign(y) == -1) player->onGround = true;
                             }
                                 
-                            player->move(sf::Vector2f((diff.x / distance) * scalar, (diff.y / distance) * scalar));
+                            player->move(sf::Vector2f(x, y));
                         }
                         returnVal = true;
                     }

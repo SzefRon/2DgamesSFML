@@ -13,6 +13,12 @@ Player::Player(ControlType controlType, sf::Texture &texture, float startX, floa
     sprite->sprite->setOrigin(textureSize.x / 2.0f, textureSize.y / 2.0f);
     sprite->sprite->setScale(1.0f, 1.0f);
 
+    maxG = 2.0f * maxJumpHeight / (maxJumpTime * maxJumpTime);
+    maxVY0 = maxG * maxJumpTime;
+    minG = 2.0f * minJumpHeight / (minJumpTime * minJumpTime);
+    minVY0 = minG * minJumpTime;
+    g = maxG;
+
     switch (controlType)
     {
     case WASD:
@@ -35,31 +41,38 @@ Player::~Player()
     delete sprite;
 }
 
-void Player::manageMovement(std::map<sf::Keyboard::Scan::Scancode, bool> &keyboardInputs, sf::Time dt)
+void Player::manageMovement(InputHandler *inputHandler, sf::Time dt)
 {
+    if (onGround) {
+        jumps = availableJumps;
+        g = maxG;
+    } 
+
     float dtSec = dt.asSeconds();
     vx = vx * powf(slipperiness, dtSec * 1000.0f);
 
-    if (keyboardInputs[directionKeys[Up]]) {
-        vy = -speed * 10.0f;
+    if (inputHandler->keyboardPresses[directionKeys[Up]] && jumps > 0) {
+        vy = -maxVY0;
+        g = maxG;
+        jumps--;
     }
-    if (keyboardInputs[directionKeys[Down]]) {
-        vy = speed;
-    }
-    if (keyboardInputs[directionKeys[Right]]) {
+    if (inputHandler->keyboardInputs[directionKeys[Right]]) {
         vx = speed;
     }
-    if (keyboardInputs[directionKeys[Left]]) {
+    if (inputHandler->keyboardInputs[directionKeys[Left]]) {
         vx = -speed;
     }
+    if (inputHandler->keyboardReleases[directionKeys[Up]]) {
+        g = minG;
+        vy = Maths::max(vy, -minVY0);
+    }
+
+    if (vy >= 0.0f) g = maxG;
 
     x += (vx) * speed * dtSec;
 
-    float gravity = 64.0f * 15.0f;
-    y += (vy) * dtSec + 0.5f * gravity * dtSec * dtSec;
-    vy += gravity * dtSec;
-
-    std::cout << vy << '\n';
+    y += (vy) * dtSec + 0.5f * g * dtSec * dtSec;
+    vy += g * dtSec;
 
     sprite->sprite->setPosition(x, y);
 

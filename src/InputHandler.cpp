@@ -12,21 +12,37 @@ InputHandler::InputHandler(sf::RenderWindow *window)
     keyboardInputs.emplace(sf::Keyboard::Scan::Scancode::A, false);
     keyboardInputs.emplace(sf::Keyboard::Scan::Scancode::S, false);
     keyboardInputs.emplace(sf::Keyboard::Scan::Scancode::D, false);
+
+    keyboardPresses.emplace(sf::Keyboard::Scan::Scancode::Up, false);
+    keyboardPresses.emplace(sf::Keyboard::Scan::Scancode::W, false);
+
+    keyboardReleases.emplace(sf::Keyboard::Scan::Scancode::Up, false);
+    keyboardReleases.emplace(sf::Keyboard::Scan::Scancode::W, false);
 }
 
 void InputHandler::handleEvents()
 {
+    for (auto &presses : keyboardPresses) {
+        presses.second = false;
+    }
+    for (auto &releases : keyboardReleases) {
+        releases.second = false;
+    }
     for (auto event = sf::Event{}; window->pollEvent(event);) {
         if (event.type == sf::Event::KeyPressed) {
             if (auto found = keyboardInputs.find(event.key.scancode); found != keyboardInputs.end()) {
                 found->second = true;
-                //std::cout << "Key pressed: " << found->first << '\n';
+            }
+            if (auto found = keyboardPresses.find(event.key.scancode); found != keyboardPresses.end()) {
+                found->second = true;
             }
         }
         if (event.type == sf::Event::KeyReleased) {
             if (auto found = keyboardInputs.find(event.key.scancode); found != keyboardInputs.end()) {
                 found->second = false;
-                //std::cout << "Key released: " << found->first << '\n';
+            }
+            if (auto found = keyboardReleases.find(event.key.scancode); found != keyboardReleases.end()) {
+                found->second = true;
             }
         }
         if (event.type == sf::Event::MouseButtonPressed) {

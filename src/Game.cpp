@@ -151,7 +151,7 @@ void Game::win(Player *player)
 void Game::managePlayers()
 {
     for (auto &player : players) {
-        player->manageMovement(inputHandler->keyboardInputs, dt);
+        player->manageMovement(inputHandler, dt);
         CollisionManager::managePlayerCollision(player, levelLoader->sprites, true);
 
         if (CollisionManager::managePlayerCollision(player, goal, false)) {
