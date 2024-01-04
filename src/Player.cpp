@@ -19,6 +19,8 @@ Player::Player(ControlType controlType, sf::Texture &texture, float startX, floa
     minVY0 = minG * minJumpTime;
     g = maxG;
 
+    jumps = availableJumps;
+
     switch (controlType)
     {
     case WASD:

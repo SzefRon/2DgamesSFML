@@ -1,6 +1,7 @@
 #pragma once
 
 #include <deque>
+#include <tuple>
 
 #include "Player.h"
 #include "Maths.h"

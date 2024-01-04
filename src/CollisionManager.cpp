@@ -5,24 +5,39 @@ bool CollisionManager::managePlayerCollision(Player *player, std::deque<Sprite *
     bool returnVal = false;
     switch (player->sprite->collisionType) {
         case SQUARE: {
-            for (auto &sprite : sprites) {
-                sf::Vector2f blockPos = sprite->sprite->getPosition();
-                sf::Vector2f playerPos = player->getPosition();
-                sf::Vector2f diff(blockPos.x - playerPos.x, blockPos.y - playerPos.y);
-                if (fabs(diff.x) < 128.0f && fabs(diff.y) < 128.0f) {
-                    if (separate) {
-                        if (fabs(diff.x) > fabs(diff.y)) {
-                            player->move(sf::Vector2f(diff.x - Maths::sign(diff.x) * 128.0f, 0.0f));
-                        }
-                        else {
-                            player->move(sf::Vector2f(0.0f, diff.y - Maths::sign(diff.y) * 128.0f));
-                            player->resetGravity();
-                            if (Maths::sign(diff.y) == 1) player->onGround = true;
-                        }
+            std::deque<std::tuple<Sprite *, sf::Vector2f>> collidingSprites;
+            do {
+                collidingSprites.clear();
+                for (auto &sprite : sprites) {
+                    sf::Vector2f blockPos = sprite->sprite->getPosition();
+                    sf::Vector2f playerPos = player->getPosition();
+                    sf::Vector2f diff(blockPos.x - playerPos.x, blockPos.y - playerPos.y);
+                    if (fabs(diff.x) < 128.0f && fabs(diff.y) < 128.0f) {
+                        collidingSprites.push_back({sprite, diff});
+                        returnVal = true;
                     }
-                    returnVal = true;
                 }
-            }
+                if (separate && collidingSprites.size() > 0) {
+                    std::sort(collidingSprites.begin(), collidingSprites.end(),
+                        [](std::tuple<Sprite *, sf::Vector2f> a, std::tuple<Sprite *, sf::Vector2f> b) {
+                            sf::Vector2f aDiff = std::get<1>(a);
+                            sf::Vector2f bDiff = std::get<1>(b);
+                            return fabs(aDiff.x) + fabs(aDiff.y) < fabs(bDiff.x) + fabs(bDiff.y);
+                        });
+                    auto &sprite = collidingSprites.at(0);
+                    sf::Vector2f diff = std::get<1>(sprite);
+                    if (fabs(diff.x) > fabs(diff.y)) {
+                        player->move(sf::Vector2f(diff.x - Maths::sign(diff.x) * 128.0f, 0.0f));
+                    }
+                    else {
+                        player->move(sf::Vector2f(0.0f, diff.y - Maths::sign(diff.y) * 128.0f));
+                        player->resetGravity();
+                        if (Maths::sign(diff.y) == 1) {
+                            player->onGround = true;
+                        } 
+                    }
+                }
+            } while (collidingSprites.size() > 0);
             break;
         }
         case CIRCLE: {
