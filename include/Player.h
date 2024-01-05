@@ -29,7 +29,9 @@ public:
     void manageMovement(InputHandler *inputHandler, sf::Time dt);
     void move(sf::Vector2f vec);
     void resetVelocity();
-    void resetGravity();
+    void resetDownwardVelocity();
     void setPosition(sf::Vector2f vec);
+    void setVelocity(sf::Vector2f vec);
     sf::Vector2f getPosition();
+    sf::Vector2f getVelocity();
 };

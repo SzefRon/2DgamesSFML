@@ -95,7 +95,7 @@ void Player::resetVelocity()
     vy = 0.0f;
 }
 
-void Player::resetGravity()
+void Player::resetDownwardVelocity()
 {
     vy = 0.0f;
 }
@@ -108,7 +108,18 @@ void Player::setPosition(sf::Vector2f vec)
     sprite->sprite->setPosition(x, y);
 }
 
+void Player::setVelocity(sf::Vector2f vec)
+{
+    vx = vec.x;
+    vy = vec.y;
+}
+
 sf::Vector2f Player::getPosition()
 {
     return sf::Vector2f(x, y);
+}
+
+sf::Vector2f Player::getVelocity()
+{
+    return sf::Vector2f(vx, vy);
 }

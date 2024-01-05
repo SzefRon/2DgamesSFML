@@ -6,38 +6,39 @@ bool CollisionManager::managePlayerCollision(Player *player, std::deque<Sprite *
     switch (player->sprite->collisionType) {
         case SQUARE: {
             std::deque<std::tuple<Sprite *, sf::Vector2f>> collidingSprites;
-            do {
-                collidingSprites.clear();
-                for (auto &sprite : sprites) {
-                    sf::Vector2f blockPos = sprite->sprite->getPosition();
+            for (auto &sprite : sprites) {
+                sf::Vector2f blockPos = sprite->sprite->getPosition();
+                sf::Vector2f playerPos = player->getPosition();
+                sf::Vector2f diff(blockPos.x - playerPos.x, blockPos.y - playerPos.y);
+                if (fabs(diff.x) < 128.0f && fabs(diff.y) < 128.0f) {
+                    collidingSprites.push_back({sprite, diff});
+                    returnVal = true;
+                }
+            }
+            if (separate && collidingSprites.size() > 0) {
+                std::sort(collidingSprites.begin(), collidingSprites.end(),
+                    [](std::tuple<Sprite *, sf::Vector2f> a, std::tuple<Sprite *, sf::Vector2f> b) {
+                        sf::Vector2f aDiff = std::get<1>(a);
+                        sf::Vector2f bDiff = std::get<1>(b);
+                        return fabs(aDiff.x) + fabs(aDiff.y) < fabs(bDiff.x) + fabs(bDiff.y);
+                    });
+                for (auto &tuple : collidingSprites) {
+                    sf::Vector2f blockPos = std::get<0>(tuple)->sprite->getPosition();
                     sf::Vector2f playerPos = player->getPosition();
                     sf::Vector2f diff(blockPos.x - playerPos.x, blockPos.y - playerPos.y);
-                    if (fabs(diff.x) < 128.0f && fabs(diff.y) < 128.0f) {
-                        collidingSprites.push_back({sprite, diff});
-                        returnVal = true;
-                    }
-                }
-                if (separate && collidingSprites.size() > 0) {
-                    std::sort(collidingSprites.begin(), collidingSprites.end(),
-                        [](std::tuple<Sprite *, sf::Vector2f> a, std::tuple<Sprite *, sf::Vector2f> b) {
-                            sf::Vector2f aDiff = std::get<1>(a);
-                            sf::Vector2f bDiff = std::get<1>(b);
-                            return fabs(aDiff.x) + fabs(aDiff.y) < fabs(bDiff.x) + fabs(bDiff.y);
-                        });
-                    auto &sprite = collidingSprites.at(0);
-                    sf::Vector2f diff = std::get<1>(sprite);
                     if (fabs(diff.x) > fabs(diff.y)) {
                         player->move(sf::Vector2f(diff.x - Maths::sign(diff.x) * 128.0f, 0.0f));
                     }
                     else {
                         player->move(sf::Vector2f(0.0f, diff.y - Maths::sign(diff.y) * 128.0f));
-                        player->resetGravity();
-                        if (Maths::sign(diff.y) == 1) {
-                            player->onGround = true;
-                        } 
+                        if (!(Maths::sign(diff.y) == -1 && Maths::sign(player->getVelocity().y) == 1
+                        || Maths::sign(diff.y) == 1 && Maths::sign(player->getVelocity().y) == -1))
+                            player->resetDownwardVelocity();
+                        if (Maths::sign(diff.y) == 1)
+                            player->onGround = true; 
                     }
                 }
-            } while (collidingSprites.size() > 0);
+            }
             break;
         }
         case CIRCLE: {
@@ -61,8 +62,9 @@ bool CollisionManager::managePlayerCollision(Player *player, std::deque<Sprite *
                             float scalar = 64.0f - distance;
                             float x = (diff.x / distance) * scalar;
                             float y = (diff.y / distance) * scalar;
+
                             if (x == 0.0f) {
-                                player->resetGravity();
+                                player->resetDownwardVelocity();
                                 if (Maths::sign(y) == -1) player->onGround = true;
                             }
                                 

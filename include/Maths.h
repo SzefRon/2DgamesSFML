@@ -12,6 +12,8 @@ public:
     template <typename T> static T clamp(T val, T min, T max);
     static float len(sf::Vector2f v);
     static int randInt(int min, int max);
+    static float getAngleBetween(sf::Vector2f v1, sf::Vector2f v2);
+    static float dotProduct(sf::Vector2f v1, sf::Vector2f v2);
 };
 
 template <typename T>
@@ -50,4 +52,14 @@ inline float Maths::len(sf::Vector2f v)
 inline int Maths::randInt(int min, int max)
 {
     return (rand() % (max - min) + min);
+}
+
+inline float Maths::getAngleBetween(sf::Vector2f v1, sf::Vector2f v2)
+{
+    return std::acosf((dotProduct(v1, v2)) / (len(v1) * len(v2)));
+}
+
+inline float Maths::dotProduct(sf::Vector2f v1, sf::Vector2f v2)
+{
+    return v1.x * v2.x + v1.y * v2.y;
 }
