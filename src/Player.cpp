@@ -48,7 +48,9 @@ void Player::manageMovement(InputHandler *inputHandler, sf::Time dt)
     if (onGround) {
         jumps = availableJumps;
         g = maxG;
-    } 
+    }
+    else if (jumps == availableJumps)
+        jumps--;
 
     float dtSec = dt.asSeconds();
     vx = vx * powf(slipperiness, dtSec * 1000.0f);
