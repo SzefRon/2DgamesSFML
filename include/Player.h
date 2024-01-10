@@ -10,9 +10,9 @@
 class Player
 {
 private:
-    float x, y, speed = 20.0f, slipperiness = 0.99f;
-    float maxJumpHeight = 128.0f * 3.0f, maxJumpTime = 1.0f;
-    float minJumpHeight = 128.0f * 1.0f, minJumpTime = 0.5f;
+    float x, y, speed = 128.0f * 4.0f, slipperiness = 0.99f;
+    float maxJumpHeight = 128.0f * 2.0f, maxJumpLength = 128.0f * 1.5f;
+    float minJumpHeight = 128.0f * 0.5f, minJumpLength = 128.0f * 0.5f;
     int jumps = 0, availableJumps = 3;
     float g = 0.0f;
     float maxG = 0.0f, maxVY0 = 0.0f;

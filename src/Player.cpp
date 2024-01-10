@@ -13,10 +13,10 @@ Player::Player(ControlType controlType, sf::Texture &texture, float startX, floa
     sprite->sprite->setOrigin(textureSize.x / 2.0f, textureSize.y / 2.0f);
     sprite->sprite->setScale(1.0f, 1.0f);
 
-    maxG = 2.0f * maxJumpHeight / (maxJumpTime * maxJumpTime);
-    maxVY0 = maxG * maxJumpTime;
-    minG = 2.0f * minJumpHeight / (minJumpTime * minJumpTime);
-    minVY0 = minG * minJumpTime;
+    maxG = 2.0f * maxJumpHeight * (speed * speed) / (maxJumpLength * maxJumpLength);
+    maxVY0 = maxG * maxJumpLength / (speed);
+    minG = 2.0f * minJumpHeight * (speed * speed) / (minJumpLength * minJumpLength);
+    minVY0 = minG * maxJumpLength / (speed);
     g = maxG;
 
     jumps = availableJumps;
@@ -73,7 +73,7 @@ void Player::manageMovement(InputHandler *inputHandler, sf::Time dt)
 
     if (vy >= 0.0f) g = maxG;
 
-    x += (vx) * speed * dtSec;
+    x += (vx) * dtSec;
 
     y += (vy) * dtSec + 0.5f * g * dtSec * dtSec;
     vy += g * dtSec;
