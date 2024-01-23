@@ -15,6 +15,10 @@ InputHandler::InputHandler(sf::RenderWindow *window)
 
     keyboardPresses.emplace(sf::Keyboard::Scan::Scancode::Up, false);
     keyboardPresses.emplace(sf::Keyboard::Scan::Scancode::W, false);
+    keyboardPresses.emplace(sf::Keyboard::Scan::Scancode::Q, false);
+    keyboardPresses.emplace(sf::Keyboard::Scan::Scancode::E, false);
+    keyboardPresses.emplace(sf::Keyboard::Scan::Scancode::Z, false);
+    keyboardPresses.emplace(sf::Keyboard::Scan::Scancode::C, false);
 
     keyboardReleases.emplace(sf::Keyboard::Scan::Scancode::Up, false);
     keyboardReleases.emplace(sf::Keyboard::Scan::Scancode::W, false);

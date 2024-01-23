@@ -154,9 +154,9 @@ void Game::managePlayers()
         player->manageMovement(inputHandler, dt);
         CollisionManager::managePlayerCollision(player, levelLoader->sprites, true);
 
-        if (CollisionManager::managePlayerCollision(player, goal, false)) {
-            win(player);
-        }
+        // if (CollisionManager::managePlayerCollision(player, goal, false)) {
+        //     win(player);
+        // }
     }
 }
 
@@ -236,10 +236,10 @@ Game::Game(unsigned int initSizeX, unsigned int initSizeY)
 
     sf::Texture *texture = new sf::Texture();
     texture->loadFromFile(".\\res\\textures\\player1.png");
-    players.push_back(new Player(WASD, *texture, 0, 0, SQUARE));
+    players.push_back(new Player(WASD, *texture, 30.0f * 128.0f, 30.0f * 128.0f, SQUARE));
     sf::Texture *texture2 = new sf::Texture();
     texture2->loadFromFile(".\\res\\textures\\player2.png");
-    players.push_back(new Player(Arrows, *texture2, 128, 128, CIRCLE));
+    players.push_back(new Player(Arrows, *texture2, 30.0f * 128.0f, 30.0f * 128.0f, CIRCLE));
 
     sf::Texture *goalTexture = new sf::Texture();
     goalTexture->loadFromFile(".\\res\\textures\\goal.png");
@@ -251,7 +251,7 @@ Game::Game(unsigned int initSizeX, unsigned int initSizeY)
     sf::Texture *followArrowTexture = new sf::Texture();
     followArrowTexture->loadFromFile(".\\res\\textures\\follow-point.png");
 
-    sf::Sprite *followArrow1 = new sf::Sprite(*followArrowTexture);
+    /*sf::Sprite *followArrow1 = new sf::Sprite(*followArrowTexture);
     followArrow1->setScale(sf::Vector2f(1.0f, 1.0f));
     followArrow1->setOrigin(sf::Vector2f(64.0f, 64.0f));
     sf::Sprite *followArrow2 = new sf::Sprite(*followArrowTexture);
@@ -259,18 +259,19 @@ Game::Game(unsigned int initSizeX, unsigned int initSizeY)
     followArrow2->setOrigin(sf::Vector2f(64.0f, 64.0f));
 
     followArrows.push_back(new FollowArrow(followArrow1));
-    followArrows.push_back(new FollowArrow(followArrow2));
+    followArrows.push_back(new FollowArrow(followArrow2));*/
 
     cameraManager = new CameraManager(players, initSizeX, initSizeY);
 
     levelLoader = new LevelLoader();
+    levelLoader->read(".\\res\\levels\\level2.json");
 
     defaultFont.loadFromFile(".\\res\\fonts\\Alef-Regular.ttf");
     scoreText.setCharacterSize(100);
     scoreText.setFont(defaultFont);
     scoreText.setString("0 : 0");
 
-    prepareLevel1();
+    //prepareLevel1();
 }
 
 Game::~Game()
@@ -288,8 +289,8 @@ void Game::start()
         if (!pause) {
             managePlayers();
 
-            manageFollowArrows(players.at(0), followArrows.at(0), goal.at(0)->sprite);
-            manageFollowArrows(players.at(1), followArrows.at(1), goal.at(0)->sprite);
+            // manageFollowArrows(players.at(0), followArrows.at(0), goal.at(0)->sprite);
+            // manageFollowArrows(players.at(1), followArrows.at(1), goal.at(0)->sprite);
 
             cameraManager->update(dt);
 
