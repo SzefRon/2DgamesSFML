@@ -106,7 +106,7 @@ float Camera::snapPlayers(std::deque<Player *> &players, unsigned int windowX, u
     playerAveragePos.x /= noPlayers;
     playerAveragePos.y /= noPlayers;
 
-    view->setCenter(playerAveragePos.x, playerAveragePos.y);
+    view->setCenter(playerAveragePos.x, playerAveragePos.y - 256.0f);
     sf::Vector2f size = view->getSize();
 
     sf::Vector2f playerPos = players[0]->getPosition();

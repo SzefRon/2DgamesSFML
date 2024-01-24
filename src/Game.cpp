@@ -2,148 +2,25 @@
 
 void Game::draw(sf::RenderTarget *target)
 {
-    for (auto &player : players) {
-        target->draw(*(player->sprite->sprite));
-    }
-
-    for (auto &sprite : levelLoader->sprites) {
-        target->draw(*(sprite->sprite));
+    for (int i = 0; i < backgrounds.size(); i++) {
+        if (i == 3) {
+            for (auto &player : players) {
+                target->draw(*(player->sprite->sprite));
+            }
+        }
+        if (i == 5) {
+            for (auto &sprite : levelLoader->sprites) {
+                target->draw(*(sprite->sprite));
+            }
+        }
+        for (auto &sprite : backgrounds[i]->sprites) {
+            target->draw(*sprite);
+        }
     }
 
     for (auto &followArrow : followArrows) {
         if (followArrow->draw) {
             target->draw(*followArrow->sprite);
-        }
-    }
-
-    target->draw(*(goal.at(0)->sprite));
-}
-
-void Game::manageFollowArrows(Player *player, FollowArrow *followArrow, sf::Sprite *goal)
-{
-    sf::Vector2f playerPos = player->getPosition();
-    sf::Vector2f diff = playerPos - goal->getPosition();
-    float diffLen = Maths::len(diff);
-
-    if (diffLen <= 500.0f) followArrow->draw = false;
-    else followArrow->draw = true;
-
-    diff /= diffLen;
-    diff *= 150.0f;
-    followArrow->sprite->setPosition(playerPos - diff);
-}
-
-void Game::prepareLevel1()
-{
-    levelLoader->read(".\\res\\levels\\mazes\\maze1.json");
-    for (auto &player : players) {
-        int randX = Maths::randInt(0, 9);
-        int randY = Maths::randInt(0, 9);
-        player->setPosition(sf::Vector2f(randX * 384.0f + 256.0f, randY * 384.0f + 256.0f));
-    }
-    while (true) {
-        int randX = Maths::randInt(0, 9);
-        int randY = Maths::randInt(0, 9);
-        sf::Vector2f newPos(randX * 384.0f + 256.0f, randY * 384.0f + 256.0f);
-        float distPlayer1 = Maths::len(players.at(0)->getPosition() - newPos);
-        float distPlayer2 = Maths::len(players.at(1)->getPosition() - newPos);
-
-        if (fabs(distPlayer1 - distPlayer2) >= 500.0f
-            || distPlayer1 <= 2000.0f) continue;
-
-        goal.at(0)->sprite->setPosition(newPos);
-        break;
-    }
-}
-
-void Game::prepareLevel2()
-{
-    levelLoader->read(".\\res\\levels\\mazes\\maze2.json");
-    for (auto &player : players) {
-        int randX = Maths::randInt(0, 14);
-        int randY = Maths::randInt(0, 14);
-        player->setPosition(sf::Vector2f(randX * 256.0f + 192.0f, randY * 256.0f + 192.0f));
-    }
-    while (true) {
-        int randX = Maths::randInt(0, 14);
-        int randY = Maths::randInt(0, 14);
-        sf::Vector2f newPos(randX * 256.0f + 192.0f, randY * 256.0f + 192.0f);
-        float distPlayer1 = Maths::len(players.at(0)->getPosition() - newPos);
-        float distPlayer2 = Maths::len(players.at(1)->getPosition() - newPos);
-
-        if (fabs(distPlayer1 - distPlayer2) >= 300.0f
-            || distPlayer1 <= 2000.0f) continue;
-
-        goal.at(0)->sprite->setPosition(newPos);
-        break;
-    }
-}
-
-void Game::prepareLevel3()
-{
-    levelLoader->read(".\\res\\levels\\mazes\\maze3.json");
-    for (auto &player : players) {
-        int randX = Maths::randInt(0, 22);
-        int randY = Maths::randInt(0, 22);
-        player->setPosition(sf::Vector2f(randX * 256.0f + 192.0f, randY * 256.0f + 192.0f));
-    }
-    while (true) {
-        int randX = Maths::randInt(0, 22);
-        int randY = Maths::randInt(0, 22);
-        sf::Vector2f newPos(randX * 256.0f + 192.0f, randY * 256.0f + 192.0f);
-        float distPlayer1 = Maths::len(players.at(0)->getPosition() - newPos);
-        float distPlayer2 = Maths::len(players.at(1)->getPosition() - newPos);
-
-        if (fabs(distPlayer1 - distPlayer2) >= 300.0f
-            || distPlayer1 <= 3000.0f) continue;
-
-        goal.at(0)->sprite->setPosition(newPos);
-        break;
-    }
-}
-
-void Game::win(Player *player)
-{
-    player->score += 1;
-    for (auto &player : players) {
-        player->resetVelocity();
-    }
-    switch (level) {
-        case 1: {
-            level = 2;
-            pause = true;
-            std::thread thread([this](){
-                std::this_thread::sleep_for(std::chrono::seconds(2));
-                this->prepareLevel2();
-                this->pause = false;
-            });
-            thread.detach();
-            break;
-        }
-        case 2: {
-            level = 3;
-            pause = true;
-            std::thread thread([this](){
-                std::this_thread::sleep_for(std::chrono::seconds(2));
-                this->prepareLevel3();
-                this->pause = false;
-            });
-            thread.detach();
-            break;
-        }
-        case 3: {
-            level = 1;
-            pause = true;
-            std::thread thread([this](){
-                std::this_thread::sleep_for(std::chrono::seconds(2));
-                this->prepareLevel1();
-                this->pause = false;
-                for (auto &player : this->players) {
-                    player->score = 0;
-                }
-            });
-            thread.detach();
-            break;
         }
     }
 }
@@ -154,15 +31,27 @@ void Game::managePlayers()
         player->manageMovement(inputHandler, dt);
         CollisionManager::managePlayerCollision(player, levelLoader->sprites, true);
 
-        // if (CollisionManager::managePlayerCollision(player, goal, false)) {
-        //     win(player);
-        // }
+        std::deque<Sprite *> otherPlayerSprites;
+        for (auto &otherPlayer : players) {
+            if (otherPlayer == player) continue;
+            Sprite *newSprite = new Sprite(otherPlayer->sprite->sprite, SQUARE);
+            otherPlayerSprites.push_back(newSprite);
+        }
+        CollisionManager::managePlayerCollision(player, otherPlayerSprites, true);
+        for (auto &otherPlayerSprite : otherPlayerSprites) {
+            delete otherPlayerSprite;
+        }
     }
 }
 
 void Game::manageDrawing()
 {
     if (cameraManager->cameraMode == CONNECTED) {
+        cameraOffset = cameraOffset - cameraManager->mainCamera->view->getCenter();
+        for (auto &background : backgrounds) {
+            background->update(cameraOffset);
+        }
+        cameraOffset = cameraManager->mainCamera->view->getCenter();
         window->setView(*(cameraManager->mainCamera->view));
         draw(window);
     }
@@ -211,16 +100,6 @@ void Game::manageDrawing()
     }
 }
 
-void Game::drawScore(sf::RenderTarget *target)
-{
-    std::stringstream ss;
-    ss << "SQUARE " << players.at(0)->score << " : " << players.at(1)->score << " CIRCLE";
-    scoreText.setString(ss.str());
-    scoreText.setPosition(target->getView().getSize().x * 0.5f - scoreText.getLocalBounds().width * 0.5f,
-                          target->getView().getSize().y * 0.5f - scoreText.getLocalBounds().height);
-    target->draw(scoreText);
-}
-
 Game::Game(unsigned int initSizeX, unsigned int initSizeY)
 {
     windowX = initSizeX;
@@ -235,41 +114,63 @@ Game::Game(unsigned int initSizeX, unsigned int initSizeY)
     inputHandler = new InputHandler(window);
 
     sf::Texture *texture = new sf::Texture();
-    texture->loadFromFile(".\\res\\textures\\player1.png");
-    players.push_back(new Player(WASD, *texture, 30.0f * 128.0f, 30.0f * 128.0f, SQUARE));
+    texture->loadFromFile(".\\res\\textures\\foxel.png");
+    players.push_back(new Player(WASD, *texture, 22.0f * 128.0f, 22.0f * 128.0f, CIRCLE));
     sf::Texture *texture2 = new sf::Texture();
-    texture2->loadFromFile(".\\res\\textures\\player2.png");
-    players.push_back(new Player(Arrows, *texture2, 30.0f * 128.0f, 30.0f * 128.0f, CIRCLE));
-
-    sf::Texture *goalTexture = new sf::Texture();
-    goalTexture->loadFromFile(".\\res\\textures\\goal.png");
-    sf::Sprite *goalSprite = new sf::Sprite(*goalTexture);
-    goalSprite->setScale(sf::Vector2f(1.0f, 1.0f));
-    goalSprite->setOrigin(sf::Vector2f(64.0f, 64.0f));
-    goal.push_back(new Sprite(goalSprite, SQUARE));
+    texture2->loadFromFile(".\\res\\textures\\rab-bit.png");
+    players.push_back(new Player(Arrows, *texture2, 23.0f * 128.0f, 22.0f * 128.0f, CIRCLE));
 
     sf::Texture *followArrowTexture = new sf::Texture();
     followArrowTexture->loadFromFile(".\\res\\textures\\follow-point.png");
 
-    /*sf::Sprite *followArrow1 = new sf::Sprite(*followArrowTexture);
-    followArrow1->setScale(sf::Vector2f(1.0f, 1.0f));
-    followArrow1->setOrigin(sf::Vector2f(64.0f, 64.0f));
-    sf::Sprite *followArrow2 = new sf::Sprite(*followArrowTexture);
-    followArrow2->setScale(sf::Vector2f(1.0f, 1.0f));
-    followArrow2->setOrigin(sf::Vector2f(64.0f, 64.0f));
-
-    followArrows.push_back(new FollowArrow(followArrow1));
-    followArrows.push_back(new FollowArrow(followArrow2));*/
-
     cameraManager = new CameraManager(players, initSizeX, initSizeY);
 
     levelLoader = new LevelLoader();
-    levelLoader->read(".\\res\\levels\\level2.json");
+    levelLoader->read(".\\res\\levels\\level3.json");
 
     defaultFont.loadFromFile(".\\res\\fonts\\Alef-Regular.ttf");
     scoreText.setCharacterSize(100);
     scoreText.setFont(defaultFont);
     scoreText.setString("0 : 0");
+
+    sf::Texture *tempTexture;
+    sf::Sprite *tempSrite;
+
+    tempTexture = new sf::Texture();
+    tempTexture->loadFromFile(".\\res\\textures\\building2.png");
+    tempSrite = new sf::Sprite((*tempTexture));
+    tempSrite->setScale(16.0f, 16.0f);
+    backgrounds.push_back(new Background(0.3f, 100.0f, 17.62f * 128.0f, 50, tempSrite));
+
+    tempTexture = new sf::Texture();
+    tempTexture->loadFromFile(".\\res\\textures\\building.png");
+    tempSrite = new sf::Sprite((*tempTexture));
+    tempSrite->setScale(18.0f, 18.0f);
+    backgrounds.push_back(new Background(0.2f, 200.0f, 16.62f * 128.0f, 40, tempSrite));
+
+    tempTexture = new sf::Texture();
+    tempTexture->loadFromFile(".\\res\\textures\\pile_of_trash.png");
+    tempSrite = new sf::Sprite((*tempTexture));
+    tempSrite->setScale(5.0f, 5.0f);
+    backgrounds.push_back(new Background(0.15f, 3000.0f, 24.4f * 128.0f, 20, tempSrite));
+
+    tempTexture = new sf::Texture();
+    tempTexture->loadFromFile(".\\res\\textures\\trash_bin.png");
+    tempSrite = new sf::Sprite((*tempTexture));
+    tempSrite->setScale(6.0f, 6.0f);
+    backgrounds.push_back(new Background(0.15f, 2000.0f, 24.15f * 128.0f, 20, tempSrite));
+
+    tempTexture = new sf::Texture();
+    tempTexture->loadFromFile(".\\res\\textures\\lamp.png");
+    tempSrite = new sf::Sprite((*tempTexture));
+    tempSrite->setScale(14.0f, 14.0f);
+    backgrounds.push_back(new Background(0.1f, 500.0f, 20.62f * 128.0f, 40, tempSrite));
+
+    tempTexture = new sf::Texture();
+    tempTexture->loadFromFile(".\\res\\textures\\car.png");
+    tempSrite = new sf::Sprite((*tempTexture));
+    tempSrite->setScale(8.0f, 8.0f);
+    backgrounds.push_back(new Background(-2.0f, 5000.0f, 26.62f * 128.0f, 40, tempSrite));
 
     //prepareLevel1();
 }
@@ -282,28 +183,21 @@ Game::~Game()
 void Game::start()
 {
     sf::Clock clock;
+    sf::Vector2f cameraOffset = sf::Vector2f(0.0f, 0.0f);
     while (window->isOpen()) {
         dt = clock.restart();
         inputHandler->handleEvents();
 
-        if (!pause) {
-            managePlayers();
+        managePlayers();
 
-            // manageFollowArrows(players.at(0), followArrows.at(0), goal.at(0)->sprite);
-            // manageFollowArrows(players.at(1), followArrows.at(1), goal.at(0)->sprite);
+        // manageFollowArrows(players.at(0), followArrows.at(0), goal.at(0)->sprite);
+        // manageFollowArrows(players.at(1), followArrows.at(1), goal.at(0)->sprite);
 
-            cameraManager->update(dt);
+        cameraManager->update(dt);
 
-            window->clear(sf::Color(100, 100, 100));
+        window->clear(sf::Color(23, 26, 38));
 
-            manageDrawing();
-        } 
-        else {
-            window->setView(*(cameraManager->uiCamera->view));
-            window->clear(sf::Color(100, 100, 100));
-
-            drawScore(window);
-        }
+        manageDrawing();
 
         window->display();
     }

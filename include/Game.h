@@ -12,6 +12,7 @@
 #include "LevelLoader.h"
 #include "CameraManager.h"
 #include "CollisionManager.h"
+#include "Background.h"
 
 struct FollowArrow
 {
@@ -46,16 +47,15 @@ private:
     int level = 1;
     bool pause = false;
 
-    void prepareLevel1();
-    void prepareLevel2();
-    void prepareLevel3();
+    sf::Vector2f cameraOffset = sf::Vector2f(0.0f, 0.0f);
+    sf::Vector2f cameraOffset1 = sf::Vector2f(0.0f, 0.0f);
+    sf::Vector2f cameraOffset2 = sf::Vector2f(0.0f, 0.0f);
+
+    std::deque<Background *> backgrounds;
 
     void draw(sf::RenderTarget *target);
-    void manageFollowArrows(Player *player, FollowArrow *followArrow, sf::Sprite *goal);
-    void win(Player *player);
     void managePlayers();
     void manageDrawing();
-    void drawScore(sf::RenderTarget *target);
 public:
     Game(unsigned int initSizeX, unsigned int initSizeY);
     ~Game();

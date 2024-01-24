@@ -18,24 +18,24 @@ void CameraManager::update(sf::Time dt)
 
     playerDistance = mainCamera->snapPlayers(players, windowX, windowY);
 
-    if (playerDistance >= 2.5f) {
-        splitCamera1->snapCamera(players.at(0));
-        splitCamera2->snapCamera(players.at(1));
+    // if (playerDistance >= 2.5f) {
+    //     splitCamera1->snapCamera(players.at(0));
+    //     splitCamera2->snapCamera(players.at(1));
 
-        splitCamera1->view->setSize(windowX * 5.0f, windowY * 5.0f);
-        splitCamera2->view->setSize(windowX * 5.0f, windowY * 5.0f);
+    //     splitCamera1->view->setSize(windowX * 5.0f, windowY * 5.0f);
+    //     splitCamera2->view->setSize(windowX * 5.0f, windowY * 5.0f);
 
-        if (direction) {
-            //splitCamera1->view->setViewport(sf::FloatRect(0.f, 0.f, 0.5f, 1.f));
-            //splitCamera2->view->setViewport(sf::FloatRect(0.5f, 0.0f, 0.5f, 1.0f));
-        }
-        else {
-            //splitCamera1->view->setViewport(sf::FloatRect(0.5f, 0.0f, 0.5f, 1.0f));
-            //splitCamera2->view->setViewport(sf::FloatRect(0.f, 0.f, 0.5f, 1.f));
-        }
-        cameraMode = SPLIT;
-    }
-    else {
+    //     if (direction) {
+    //         //splitCamera1->view->setViewport(sf::FloatRect(0.f, 0.f, 0.5f, 1.f));
+    //         //splitCamera2->view->setViewport(sf::FloatRect(0.5f, 0.0f, 0.5f, 1.0f));
+    //     }
+    //     else {
+    //         //splitCamera1->view->setViewport(sf::FloatRect(0.5f, 0.0f, 0.5f, 1.0f));
+    //         //splitCamera2->view->setViewport(sf::FloatRect(0.f, 0.f, 0.5f, 1.f));
+    //     }
+    //     cameraMode = SPLIT;
+    // }
+    // else {
         sf::Vector2f center = mainCamera->view->getCenter();
         sf::Vector2f size = mainCamera->view->getSize();
 
@@ -49,5 +49,5 @@ void CameraManager::update(sf::Time dt)
         splitCamera2->view->setCenter(sf::Vector2f(center.x + size.x * diff.x, center.y + size.y * diff.y));
         
         cameraMode = CONNECTED;
-    }
+    // }
 }

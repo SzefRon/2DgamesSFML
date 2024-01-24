@@ -43,14 +43,15 @@ bool LevelLoader::read(std::string filePath)
         const Block &block = blockPalette[name];
         
         sf::Sprite *sprite = new sf::Sprite(*block.texture);
-        sprite->scale(1.0f, 1.0f);
+        sf::Vector2u texSize = block.texture->getSize();
         auto positionObj = object["pos"].GetArray();
         sprite->setPosition(sf::Vector2f(positionObj[0].GetInt() * 128, positionObj[1].GetInt() * 128));
 
         float angle = object["rotation"].GetInt() * 90.0f;
-        sprite->setOrigin(sf::Vector2f(64.0f, 64.0f));
+        sprite->setOrigin(sf::Vector2f(texSize.x * 0.5f, texSize.y * 0.5f));
         sprite->setRotation(angle);
-        sprite->move(64.0f, 64.0f);
+        sprite->move(texSize.x * 0.5f, texSize.y * 0.5f);
+        sprite->setScale(128.0f / texSize.x, 128.0f / texSize.y);
 
         sprites.push_back(new Sprite(sprite, block.collisionType));
     }

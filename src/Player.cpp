@@ -18,9 +18,10 @@ Player::Player(ControlType controlType, sf::Texture &texture, float startX, floa
     x = startX;
     y = startY;
     sprite->sprite->setPosition(x, y);
+
     sf::Vector2u textureSize = texture.getSize();
     sprite->sprite->setOrigin(textureSize.x / 2.0f, textureSize.y / 2.0f);
-    sprite->sprite->setScale(1.0f, 1.0f);
+    sprite->sprite->setScale(128.0f / textureSize.x, 128.0f / textureSize.y);
 
     calculateJumps();
 
@@ -76,26 +77,26 @@ void Player::manageMovement(InputHandler *inputHandler, sf::Time dt)
         vy = Maths::max(vy, -minVY0);
     }
 
-    if (inputHandler->keyboardPresses[sf::Keyboard::Scan::Scancode::Q]) {
-        maxJumpHeight -= 64.0f;
-        calculateJumps();
-        std::cout << "Max Jump Height: " << maxJumpHeight / 128.0f << '\n';
-    }
-    if (inputHandler->keyboardPresses[sf::Keyboard::Scan::Scancode::E]) {
-        maxJumpHeight += 64.0f;
-        calculateJumps();
-        std::cout << "Max Jump Height: " << maxJumpHeight / 128.0f << '\n';
-    }
-    if (inputHandler->keyboardPresses[sf::Keyboard::Scan::Scancode::Z]) {
-        maxJumpHeightDistance -= 64.0f;
-        calculateJumps();
-        std::cout << "Distance to Max Jump: " << maxJumpHeightDistance / 128.0f << '\n';
-    }
-    if (inputHandler->keyboardPresses[sf::Keyboard::Scan::Scancode::C]) {
-        maxJumpHeightDistance += 64.0f;
-        calculateJumps();
-        std::cout << "Distance to Max Jump: " << maxJumpHeightDistance / 128.0f << '\n';
-    }
+    // if (inputHandler->keyboardPresses[sf::Keyboard::Scan::Scancode::Q]) {
+    //     maxJumpHeight -= 64.0f;
+    //     calculateJumps();
+    //     std::cout << "Max Jump Height: " << maxJumpHeight / 128.0f << '\n';
+    // }
+    // if (inputHandler->keyboardPresses[sf::Keyboard::Scan::Scancode::E]) {
+    //     maxJumpHeight += 64.0f;
+    //     calculateJumps();
+    //     std::cout << "Max Jump Height: " << maxJumpHeight / 128.0f << '\n';
+    // }
+    // if (inputHandler->keyboardPresses[sf::Keyboard::Scan::Scancode::Z]) {
+    //     maxJumpHeightDistance -= 64.0f;
+    //     calculateJumps();
+    //     std::cout << "Distance to Max Jump: " << maxJumpHeightDistance / 128.0f << '\n';
+    // }
+    // if (inputHandler->keyboardPresses[sf::Keyboard::Scan::Scancode::C]) {
+    //     maxJumpHeightDistance += 64.0f;
+    //     calculateJumps();
+    //     std::cout << "Distance to Max Jump: " << maxJumpHeightDistance / 128.0f << '\n';
+    // }
 
     if (vy >= 0.0f) g = maxG;
 
